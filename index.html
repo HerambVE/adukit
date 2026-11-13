@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AduKit | Food Adulteration Testing Kit - Interactive Manual & Video Guide</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Top Colorful Reading Progress Bar -->
+  <div class="scroll-progress-track" aria-hidden="true">
+    <div id="scroll-progress-bar" class="scroll-progress-bar"></div>
+  </div>
+
+  <!-- ========================================================================
+       TOP STICKY NAVBAR (Scrollspy tracks which main section is on screen)
+       ======================================================================== -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#our-story" class="brand">
+        <span class="brand-icon">🧪</span>
+        <span>AduKit Manual</span>
+        <span class="brand-badge">Junior Food Detectives</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#our-story" class="nav-link active">Our Story</a></li>
+          <li><a href="#kit-reagents" class="nav-link">The 6 Kit Reagents</a></li>
+          <li><a href="#other-adulteration" class="nav-link">Everyday Tests (DART)</a></li>
+          <li><a href="#safety-rules" class="nav-link">Lab Safety Rules</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       SECOND STICKY BAR: Tracks which of the 6 Reagents you are looking at
+       ======================================================================== -->
+  <div class="reagent-subnav" aria-label="Kit Components Quick Tracker">
+    <div class="reagent-subnav-inner">
+      <span class="subnav-label">6 Kit Bottles:</span>
+      <a href="#reagent-1" class="reagent-pill">
+        <span class="pill-dot" style="background: #318ED0;"></span>1. Iodine Solution
+      </a>
+      <a href="#reagent-2" class="reagent-pill">
+        <span class="pill-dot" style="background: #E83D36;"></span>2. Dilute HCl
+      </a>
+      <a href="#reagent-3" class="reagent-pill">
+        <span class="pill-dot" style="background: #F28B36;"></span>3. Slaked Lime
+      </a>
+      <a href="#reagent-4" class="reagent-pill">
+        <span class="pill-dot" style="background: #FFD447;"></span>4. Milk Indicator
+      </a>
+      <a href="#reagent-5" class="reagent-pill">
+        <span class="pill-dot" style="background: #65B96B;"></span>5. Dye Swab Solvent
+      </a>
+      <a href="#reagent-6" class="reagent-pill">
+        <span class="pill-dot" style="background: #23334D;"></span>6. Spirit &amp; Magnet
+      </a>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       SECTION 1: HERO PAGE (Why the Kids Started This Project + Intro Video)
+       ======================================================================== -->
+  <section id="our-story" class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        
+        <!-- Left Column: Project Story & Paper Manual Intro -->
+        <div class="hero-content">
+          <div class="manual-callout">
+            📖 Visual Companion to Your Printed Paper Manual
+          </div>
+
+          <h1 class="hero-title">
+            Be a <span class="hero-highlight-blue">Food Safety Detective</span> with Our <span class="hero-highlight-green">6-Reagent Kit!</span>
+          </h1>
+
+          <p class="hero-description">
+            Hi! We are a team of student innovators who wanted to know if the milk, spices, oils, and vegetables we eat at home are truly pure. Inspired by <strong>FSSAI's DART (Detect Adulteration with Rapid Test)</strong> handbook, we created a physical testing kit and paper manual—plus this companion website so you can watch every test in action!
+          </p>
+
+          <div class="story-highlights">
+            <div class="story-card card-why">
+              <strong>🚨 Why We Started This Project</strong>
+              <p>Hidden adulterants like starch, chalk powder, brick dust, and toxic dyes can fool our eyes. Simple 2-minute science tests keep every kitchen safe!</p>
+            </div>
+            <div class="story-card card-how">
+              <strong>📘 How to Use with Your Manual</strong>
+              <p>Open your printed paper manual, pick the matching color-coded reagent bottle (#1 to #6) from the box, and follow the video demo below.</p>
+            </div>
+          </div>
+
+          <div class="hero-buttons">
+            <a href="#kit-reagents" class="btn btn-primary">Explore the 6 Kit Reagents ↓</a>
+            <a href="#other-adulteration" class="btn btn-secondary">🔍 9 Home Tests (No Kit Needed)</a>
+            <button type="button" class="btn" style="background: #FFFFFF;" onclick="window.print()">🖨️ Print Manual View</button>
+          </div>
+        </div>
+
+        <!-- Right Column: Kids Intro Video Player -->
+        <div class="hero-video-card">
+          <div class="video-sticker">⭐ Watch Our Story First!</div>
+
+          <div class="video-header-bar">
+            <div class="video-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="video-label">🎬 Why We Built the Food Adulteration Kit</span>
+          </div>
+
+          <div class="video-wrapper">
+            <video
+              id="hero-local-video"
+              controls
+              preload="metadata"
+              poster="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1000&q=80"
+            >
+              <source src="videos/our-story-compressed.mp4" type="video/mp4" />
+              <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
+              Your browser does not support HTML5 video.
+            </video>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Visual Map of the 6 Illustrated Dropper Bottles in the Box -->
+      <div class="kit-strip reveal">
+        <div class="kit-strip-title">
+          <span>🧰 Inside Your Kit Box: Click Any Reagent Bottle to Jump to Its Demo</span>
+          <span class="manual-match-tag">Matches Pages 2–7 of Paper Manual</span>
+        </div>
+
+        <div class="kit-bottles-grid">
+          <a href="#reagent-1" class="bottle-mini-card">
+            <span class="bottle-num" style="background: #318ED0;">Bottle #1</span>
+            <div class="css-bottle" aria-hidden="true">
+              <div class="css-bottle-cap"></div>
+              <div class="css-bottle-neck"></div>
+              <div class="css-bottle-body">
+                <div class="css-bottle-liquid" style="background: #318ED0;"></div>
+                <span class="css-bottle-label">I₂</span>
+              </div>
+            </div>
+            <span class="bottle-name">Iodine Solution</span>
+            <span class="bottle-target">Milk, Paneer &amp; Ghee</span>
+          </a>
+
+          <a href="#reagent-2" class="bottle-mini-card">
+            <span class="bottle-num" style="background: #E83D36;">Bottle #2</span>
+            <div class="css-bottle" aria-hidden="true">
+              <div class="css-bottle-cap"></div>
+              <div class="css-bottle-neck"></div>
+              <div class="css-bottle-body">
+                <div class="css-bottle-liquid" style="background: #E83D36;"></div>
+                <span class="css-bottle-label">HCl</span>
+              </div>
+            </div>
+            <span class="bottle-name">Dilute HCl Acid</span>
+            <span class="bottle-target">Turmeric, Dal &amp; Sugar</span>
+          </a>
+
+          <a href="#reagent-3" class="bottle-mini-card">
+            <span class="bottle-num" style="background: #F28B36;">Bottle #3</span>
+            <div class="css-bottle" aria-hidden="true">
+              <div class="css-bottle-cap"></div>
+              <div class="css-bottle-neck"></div>
+              <div class="css-bottle-body">
+                <div class="css-bottle-liquid" style="background: #F28B36;"></div>
+                <span class="css-bottle-label">Ca</span>
+              </div>
+            </div>
+            <span class="bottle-name">Slaked Lime</span>
+            <span class="bottle-target">Sella Rice &amp; Tea Dust</span>
+          </a>
+
+          <a href="#reagent-4" class="bottle-mini-card">
+            <span class="bottle-num" style="background: #FFD447; color: #23334D; border: 1.5px solid #23334D;">Bottle #4</span>
+            <div class="css-bottle" aria-hidden="true">
+              <div class="css-bottle-cap"></div>
+              <div class="css-bottle-neck"></div>
+              <div class="css-bottle-body">
+                <div class="css-bottle-liquid" style="background: #FFD447;"></div>
+                <span class="css-bottle-label">pH</span>
+              </div>
+            </div>
+            <span class="bottle-name">Milk Indicator</span>
+            <span class="bottle-target">Detergent in Milk</span>
+          </a>
+
+          <a href="#reagent-5" class="bottle-mini-card">
+            <span class="bottle-num" style="background: #65B96B;">Bottle #5</span>
+            <div class="css-bottle" aria-hidden="true">
+              <div class="css-bottle-cap"></div>
+              <div class="css-bottle-neck"></div>
+              <div class="css-bottle-body">
+                <div class="css-bottle-liquid" style="background: #65B96B;"></div>
+                <span class="css-bottle-label">OIL</span>
+              </div>
+            </div>
+            <span class="bottle-name">Swab &amp; Solvent</span>
+            <span class="bottle-target">Green Veggies &amp; Ragi</span>
+          </a>
+
+          <a href="#reagent-6" class="bottle-mini-card">
+            <span class="bottle-num" style="background: #23334D;">Bottle #6</span>
+            <div class="css-bottle" aria-hidden="true">
+              <div class="css-bottle-cap"></div>
+              <div class="css-bottle-neck"></div>
+              <div class="css-bottle-body">
+                <div class="css-bottle-liquid" style="background: #23334D;"></div>
+                <span class="css-bottle-label">Fe</span>
+              </div>
+            </div>
+            <span class="bottle-name">Spirit &amp; Magnet</span>
+            <span class="bottle-target">Black Pepper &amp; Tea</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECTION 2: THE 6 KIT REAGENTS & VIDEO DEMOS
+       ======================================================================== -->
+  <section id="kit-reagents">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">🧪 Step-by-Step Kit Manual</span>
+        <h2 class="section-title">The 6 Reagents &amp; Video Demonstrations</h2>
+        <p class="section-subtitle">
+          Each component card matches a page in your paper manual. Watch the video demo and click the reaction button under each video to preview the color change!
+        </p>
+      </div>
+
+      <div class="reagents-list">
+
+        <!-- ==================== REAGENT 1 (SCIENCE BLUE #318ED0) ==================== -->
+        <article id="reagent-1" class="reagent-card reveal">
+          <div class="reagent-card-header">
+            <div class="reagent-badge-group">
+              <span class="reagent-number">Component #1</span>
+              <strong>Tincture of Iodine Solution</strong>
+            </div>
+            <span class="manual-page-tag">📖 Paper Manual: Page 2</span>
+          </div>
+
+          <div class="reagent-card-body">
+            <div class="reagent-info">
+              <h3 class="reagent-title">Detection of Starch in Milk, Paneer, Khoya &amp; Ghee</h3>
+              <div class="reagent-meta">
+                <span class="meta-pill meta-food">🥛 Food Tested: Milk, Paneer, Butter, Ghee</span>
+                <span class="meta-pill meta-adulterant">⚠️ Adulterant: Starch / Mashed Potato</span>
+              </div>
+
+              <div class="steps-box">
+                <h4>📋 Testing Method (Step-by-Step):</h4>
+                <ol class="steps-list">
+                  <li>Take <strong>2–3 ml of milk</strong> (or ½ teaspoon of ghee/butter/paneer boiled with water and cooled) in the test tube.</li>
+                  <li>Open <strong>Bottle #1 (Iodine Solution)</strong> using the dropper.</li>
+                  <li>Add <strong>2 to 3 drops</strong> of Tincture of Iodine into the sample and gently swirl.</li>
+                  <li>Observe the color change inside the tube after 10 seconds.</li>
+                </ol>
+              </div>
+
+              <div class="result-comparison">
+                <div class="result-box result-pure">
+                  <strong>✅ Pure Sample</strong>
+                  <p>Remains milky white or turns a faint yellowish-brown (natural color of iodine drops).</p>
+                </div>
+                <div class="result-box result-adulterated">
+                  <strong>❌ Adulterated Sample</strong>
+                  <p>Turns <strong>Dark Blue or Bluish-Black</strong> immediately, proving starch was added!</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="reagent-right-col">
+              <div class="reagent-video-box">
+                <div class="video-wrapper">
+                  <video
+                    controls
+                    preload="metadata"
+                    poster="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80"
+                  >
+                    <source src="videos/reagent-1-iodine.mp4" type="video/mp4" />
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="reagent-video-caption">
+                  <span>🎥 Demo #1: Testing Milk &amp; Butter with Iodine</span>
+                  <span>Bottle #1</span>
+                </div>
+              </div>
+
+              <!-- Interactive Virtual Reaction Simulator -->
+              <div class="reaction-sim-box">
+                <div class="sim-visual">
+                  <div class="test-tube">
+                    <div class="tube-liquid" data-pure-color="#FFF9EF" data-adult-color="#1e3a8a" style="background-color: #FFF9EF;"></div>
+                  </div>
+                  <div class="sim-text">
+                    <strong class="sim-status-title">Virtual Tube: Pure Milk (White)</strong>
+                    <span class="sim-status-desc">Click button to add Iodine to adulterated milk!</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="sim-toggle-btn"
+                  data-pure-label="Virtual Tube: Pure Milk (White)"
+                  data-adult-label="⚠️ Turned Dark Blue! (Starch Detected)"
+                >
+                  💧 Add Iodine Drop
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ==================== REAGENT 2 (CORAL RED #E83D36) ==================== -->
+        <article id="reagent-2" class="reagent-card reveal">
+          <div class="reagent-card-header">
+            <div class="reagent-badge-group">
+              <span class="reagent-number">Component #2</span>
+              <strong>Dilute Acid Indicator (HCl / Citric Acid Reagent)</strong>
+            </div>
+            <span class="manual-page-tag">📖 Paper Manual: Page 3</span>
+          </div>
+
+          <div class="reagent-card-body">
+            <div class="reagent-info">
+              <h3 class="reagent-title">Detection of Metanil Yellow in Turmeric &amp; Chalk in Sugar</h3>
+              <div class="reagent-meta">
+                <span class="meta-pill meta-food">🫚 Food Tested: Turmeric Powder, Arhar Dal, Sugar</span>
+                <span class="meta-pill meta-adulterant">⚠️ Adulterant: Metanil Yellow Dye / Chalk / Washing Soda</span>
+              </div>
+
+              <div class="steps-box">
+                <h4>📋 Testing Method (Step-by-Step):</h4>
+                <ol class="steps-list">
+                  <li>Take <strong>½ teaspoon of turmeric powder or sugar</strong> in a clean test tube with 5 ml of water.</li>
+                  <li>Add <strong>5 drops from Bottle #2 (Dilute Acid Reagent)</strong> slowly down the side of the tube.</li>
+                  <li>For turmeric: watch for a pink/magenta color change. For sugar/jaggery: watch for fizzing bubbles!</li>
+                </ol>
+              </div>
+
+              <div class="result-comparison">
+                <div class="result-box result-pure">
+                  <strong>✅ Pure Sample</strong>
+                  <p>Turmeric stays natural yellow with no magenta color; sugar dissolves quietly with no fizzing.</p>
+                </div>
+                <div class="result-box result-adulterated">
+                  <strong>❌ Adulterated Sample</strong>
+                  <p>Turns <strong>Pink/Violet/Magenta</strong> (Metanil Yellow dye) or produces <strong>fizzy bubbles</strong> (chalk/soda).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="reagent-right-col">
+              <div class="reagent-video-box">
+                <div class="video-wrapper">
+                  <video
+                    controls
+                    preload="metadata"
+                    poster="https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&w=800&q=80"
+                  >
+                    <source src="videos/reagent-2-hcl.mp4" type="video/mp4" />
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="reagent-video-caption">
+                  <span>🎥 Demo #2: Testing Turmeric &amp; Sugar</span>
+                  <span>Bottle #2</span>
+                </div>
+              </div>
+
+              <div class="reaction-sim-box">
+                <div class="sim-visual">
+                  <div class="test-tube">
+                    <div class="tube-liquid" data-pure-color="#FFD447" data-adult-color="#db2777" style="background-color: #FFD447;"></div>
+                  </div>
+                  <div class="sim-text">
+                    <strong class="sim-status-title">Virtual Tube: Turmeric in Water</strong>
+                    <span class="sim-status-desc">Click button to test for Metanil Yellow dye!</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="sim-toggle-btn"
+                  data-pure-label="Virtual Tube: Turmeric in Water"
+                  data-adult-label="⚠️ Turned Magenta Pink! (Metanil Dye)"
+                >
+                  💧 Add HCl Drop
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ==================== REAGENT 3 (TANGERINE ORANGE #F28B36) ==================== -->
+        <article id="reagent-3" class="reagent-card reveal">
+          <div class="reagent-card-header">
+            <div class="reagent-badge-group">
+              <span class="reagent-number">Component #3</span>
+              <strong>Slaked Lime Reagent (Soaked Chuna)</strong>
+            </div>
+            <span class="manual-page-tag">📖 Paper Manual: Page 4</span>
+          </div>
+
+          <div class="reagent-card-body">
+            <div class="reagent-info">
+              <h3 class="reagent-title">Detection of Turmeric Coating in Sella Rice &amp; Coal Tar Dye in Tea</h3>
+              <div class="reagent-meta">
+                <span class="meta-pill meta-food">🍚 Food Tested: Golden Sella Rice, Tea Leaves/Dust</span>
+                <span class="meta-pill meta-adulterant">⚠️ Adulterant: Chemical Turmeric Polish / Coal Tar Dye</span>
+              </div>
+
+              <div class="steps-box">
+                <h4>📋 Testing Method (Step-by-Step):</h4>
+                <ol class="steps-list">
+                  <li>Place <strong>1 teaspoon of Sella rice grains</strong> (or a pinch of tea dust) on a white glass plate or tile.</li>
+                  <li>Sprinkle a small amount of <strong>Component #3 (Soaked Slaked Lime / Chuna)</strong> over the sample.</li>
+                  <li>Wait 1 minute and observe the color around the rice grains or on the white lime paste.</li>
+                </ol>
+              </div>
+
+              <div class="result-comparison">
+                <div class="result-box result-pure">
+                  <strong>✅ Pure Sample</strong>
+                  <p>Rice grains do not turn red; genuine tea only shows a faint greenish-yellow chlorophyll tint after some time.</p>
+                </div>
+                <div class="result-box result-adulterated">
+                  <strong>❌ Adulterated Sample</strong>
+                  <p>Forms <strong>Bright Red or Orange streaks</strong> immediately on contact with the slaked lime!</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="reagent-right-col">
+              <div class="reagent-video-box">
+                <div class="video-wrapper">
+                  <video
+                    controls
+                    preload="metadata"
+                    poster="https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80"
+                  >
+                    <source src="videos/reagent-3-lime.mp4" type="video/mp4" />
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoy.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="reagent-video-caption">
+                  <span>🎥 Demo #3: Sella Rice &amp; Tea Lime Test</span>
+                  <span>Bottle #3</span>
+                </div>
+              </div>
+
+              <div class="reaction-sim-box">
+                <div class="sim-visual">
+                  <div class="test-tube">
+                    <div class="tube-liquid" data-pure-color="#F1F1EC" data-adult-color="#E83D36" style="background-color: #F1F1EC;"></div>
+                  </div>
+                  <div class="sim-text">
+                    <strong class="sim-status-title">Virtual Plate: White Lime Paste</strong>
+                    <span class="sim-status-desc">Click button to test Sella Rice / Tea Dust!</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="sim-toggle-btn"
+                  data-pure-label="Virtual Plate: White Lime Paste"
+                  data-adult-label="⚠️ Turned Bright Red! (Added Color)"
+                >
+                  ⚪ Sprinkle Lime
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ==================== REAGENT 4 (SUNNY YELLOW #FFD447) ==================== -->
+        <article id="reagent-4" class="reagent-card reveal">
+          <div class="reagent-card-header">
+            <div class="reagent-badge-group">
+              <span class="reagent-number">Component #4</span>
+              <strong>Alkaline Milk Indicator (Phenolphthalein / Rosolic Solution)</strong>
+            </div>
+            <span class="manual-page-tag">📖 Paper Manual: Page 5</span>
+          </div>
+
+          <div class="reagent-card-body">
+            <div class="reagent-info">
+              <h3 class="reagent-title">Detection of Synthetic Detergent &amp; Neutralizers in Milk</h3>
+              <div class="reagent-meta">
+                <span class="meta-pill meta-food">🥛 Food Tested: Liquid Milk</span>
+                <span class="meta-pill meta-adulterant">⚠️ Adulterant: Detergent Powder, Caustic Soda, Baking Soda</span>
+              </div>
+
+              <div class="steps-box">
+                <h4>📋 Testing Method (Step-by-Step):</h4>
+                <ol class="steps-list">
+                  <li>Pour <strong>5 ml of milk</strong> into the test tube and add an equal amount (5 ml) of water.</li>
+                  <li>Shake thoroughly for 15 seconds to check for thick soapy lather.</li>
+                  <li>Add <strong>3–4 drops of Bottle #4 (Milk pH Indicator)</strong> to confirm alkaline detergent or soda adulteration.</li>
+                </ol>
+              </div>
+
+              <div class="result-comparison">
+                <div class="result-box result-pure">
+                  <strong>✅ Pure Sample</strong>
+                  <p>Forms only a very thin natural foam layer that disappears quickly and stays milky white.</p>
+                </div>
+                <div class="result-box result-adulterated">
+                  <strong>❌ Adulterated Sample</strong>
+                  <p>Forms <strong>dense soapy lather</strong> and turns <strong>Pinkish-Red</strong> when the indicator is added.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="reagent-right-col">
+              <div class="reagent-video-box">
+                <div class="video-wrapper">
+                  <video
+                    controls
+                    preload="metadata"
+                    poster="https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=800&q=80"
+                  >
+                    <source src="videos/reagent-4-milk.mp4" type="video/mp4" />
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="reagent-video-caption">
+                  <span>🎥 Demo #4: Detecting Detergent in Milk</span>
+                  <span>Bottle #4</span>
+                </div>
+              </div>
+
+              <div class="reaction-sim-box">
+                <div class="sim-visual">
+                  <div class="test-tube">
+                    <div class="tube-liquid" data-pure-color="#FFFFFF" data-adult-color="#f472b6" style="background-color: #FFFFFF;"></div>
+                  </div>
+                  <div class="sim-text">
+                    <strong class="sim-status-title">Virtual Tube: Milk + Water</strong>
+                    <span class="sim-status-desc">Click button to shake &amp; add pH Indicator!</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="sim-toggle-btn"
+                  data-pure-label="Virtual Tube: Milk + Water"
+                  data-adult-label="⚠️ Pink Soapy Foam! (Detergent Found)"
+                >
+                  🌸 Add Indicator
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ==================== REAGENT 5 (LEAF GREEN #65B96B) ==================== -->
+        <article id="reagent-5" class="reagent-card reveal">
+          <div class="reagent-card-header">
+            <div class="reagent-badge-group">
+              <span class="reagent-number">Component #5</span>
+              <strong>Mineral/Vegetable Oil Solvent &amp; White Blotting Swabs</strong>
+            </div>
+            <span class="manual-page-tag">📖 Paper Manual: Page 6</span>
+          </div>
+
+          <div class="reagent-card-body">
+            <div class="reagent-info">
+              <h3 class="reagent-title">Detection of Malachite Green on Vegetables &amp; Rhodamine B on Sweet Potato/Ragi</h3>
+              <div class="reagent-meta">
+                <span class="meta-pill meta-food">🥦 Food Tested: Bitter Gourd, Green Chilli, Peas, Sweet Potato, Ragi</span>
+                <span class="meta-pill meta-adulterant">⚠️ Adulterant: Malachite Green &amp; Rhodamine B Chemical Dyes</span>
+              </div>
+
+              <div class="steps-box">
+                <h4>📋 Testing Method (Step-by-Step):</h4>
+                <ol class="steps-list">
+                  <li>Take a white cotton swab or blotting strip from the kit and soak it with a few drops of <strong>Bottle #5 (Testing Oil Solvent)</strong>.</li>
+                  <li>Firmly rub the outer green surface of a bitter gourd/green chilli, or the red skin of a sweet potato/ragi.</li>
+                  <li>Inspect the white cotton swab under bright light.</li>
+                </ol>
+              </div>
+
+              <div class="result-comparison">
+                <div class="result-box result-pure">
+                  <strong>✅ Pure Sample</strong>
+                  <p>The white cotton swab remains clean and does not pick up any artificial green or bright pink dye.</p>
+                </div>
+                <div class="result-box result-adulterated">
+                  <strong>❌ Adulterated Sample</strong>
+                  <p>Cotton turns <strong>Bright Green</strong> (Malachite Green) or <strong>Reddish-Pink</strong> (Rhodamine B).</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="reagent-right-col">
+              <div class="reagent-video-box">
+                <div class="video-wrapper">
+                  <video
+                    controls
+                    preload="metadata"
+                    poster="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80"
+                  >
+                    <source src="videos/reagent-5-swab.mp4" type="video/mp4" />
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="reagent-video-caption">
+                  <span>🎥 Demo #5: Swab Test on Green Veggies &amp; Sweet Potato</span>
+                  <span>Bottle #5</span>
+                </div>
+              </div>
+
+              <div class="reaction-sim-box">
+                <div class="sim-visual">
+                  <div class="test-tube">
+                    <div class="tube-liquid" data-pure-color="#FFFFFF" data-adult-color="#65B96B" style="background-color: #FFFFFF;"></div>
+                  </div>
+                  <div class="sim-text">
+                    <strong class="sim-status-title">Virtual Cotton Swab: Clean White</strong>
+                    <span class="sim-status-desc">Click button to rub swab on dyed vegetable!</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="sim-toggle-btn"
+                  data-pure-label="Virtual Cotton Swab: Clean White"
+                  data-adult-label="⚠️ Swab Turned Green! (Malachite Dye)"
+                >
+                  🌿 Rub Oil Swab
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ==================== REAGENT 6 (DEEP NAVY #23334D) ==================== -->
+        <article id="reagent-6" class="reagent-card reveal">
+          <div class="reagent-card-header">
+            <div class="reagent-badge-group">
+              <span class="reagent-number">Component #6</span>
+              <strong>Rectified Spirit Solution &amp; High-Strength Test Magnet</strong>
+            </div>
+            <span class="manual-page-tag">📖 Paper Manual: Page 7</span>
+          </div>
+
+          <div class="reagent-card-body">
+            <div class="reagent-info">
+              <h3 class="reagent-title">Detection of Papaya Seeds / Light Berries in Black Pepper &amp; Iron Filings in Tea</h3>
+              <div class="reagent-meta">
+                <span class="meta-pill meta-food">🌶️ Food Tested: Whole Black Pepper, Tea Leaves, Suji (Rawa)</span>
+                <span class="meta-pill meta-adulterant">⚠️ Adulterant: Papaya Seeds, Light Berries &amp; Iron Filings</span>
+              </div>
+
+              <div class="steps-box">
+                <h4>📋 Testing Method (Step-by-Step):</h4>
+                <ol class="steps-list">
+                  <li><strong>Black Pepper Test:</strong> Drop 10–15 black peppercorns into a tube of water or <strong>Bottle #6 (Rectified Spirit)</strong>. Mature pepper sinks while papaya seeds/light berries float!</li>
+                  <li><strong>Tea / Rawa Magnet Test:</strong> Spread 1 spoon of tea leaves or suji on a flat paper plate and sweep the <strong>Kit Magnet</strong> right over the surface.</li>
+                </ol>
+              </div>
+
+              <div class="result-comparison">
+                <div class="result-box result-pure">
+                  <strong>✅ Pure Sample</strong>
+                  <p>All genuine black peppercorns sink to the bottom; the magnet stays completely clean over tea leaves.</p>
+                </div>
+                <div class="result-box result-adulterated">
+                  <strong>❌ Adulterated Sample</strong>
+                  <p>Papaya seeds &amp; hollow berries <strong>float on top</strong>; tiny <strong>black iron filings</strong> stick to the magnet!</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="reagent-right-col">
+              <div class="reagent-video-box">
+                <div class="video-wrapper">
+                  <video
+                    controls
+                    preload="metadata"
+                    poster="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80"
+                  >
+                    <source src="videos/reagent-6-spirit-magnet.mp4" type="video/mp4" />
+                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div class="reagent-video-caption">
+                  <span>🎥 Demo #6: Spirit Float Test &amp; Iron Filings Magnet Test</span>
+                  <span>Bottle #6</span>
+                </div>
+              </div>
+
+              <div class="reaction-sim-box">
+                <div class="sim-visual">
+                  <div class="test-tube">
+                    <div class="tube-liquid" data-pure-color="#318ED0" data-adult-color="#23334D" style="background-color: #318ED0;"></div>
+                  </div>
+                  <div class="sim-text">
+                    <strong class="sim-status-title">Virtual Magnet &amp; Spirit Tube</strong>
+                    <span class="sim-status-desc">Click button to sweep magnet over adulterated tea!</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="sim-toggle-btn"
+                  data-pure-label="Virtual Magnet & Spirit Tube"
+                  data-adult-label="⚠️ Iron Filings & Floating Seeds Found!"
+                >
+                  🧲 Run Magnet Test
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECTION 3: ADULTERATION IN OTHER EVERYDAY FOODS (FSSAI DART QUICK TESTS)
+       ======================================================================== -->
+  <section id="other-adulteration" class="other-tests-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">🏠 Bonus Household Guide (Based on FSSAI DART)</span>
+        <h2 class="section-title">Common Adulteration in Other Everyday Foods</h2>
+        <p class="section-subtitle">
+          Adulteration also happens often in everyday kitchen items that don't even require chemical reagents to check! Try these 9 rapid household tests and check them off as you go.
+        </p>
+      </div>
+
+      <!-- Interactive Home Detective Checklist Counter -->
+      <div class="detective-banner reveal">
+        <div class="detective-badge">
+          <span style="font-size: 1.5rem;">🕵️‍♂️</span>
+          <div>
+            <div>Junior Food Detective Home Challenge</div>
+            <div style="font-size: 0.82rem; font-weight: 600; opacity: 0.8;">Click "Mark Tested" on any card below after trying it in your kitchen!</div>
+          </div>
+        </div>
+        <div id="detective-counter" class="detective-count">0 / 9 Home Tests Completed</div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs reveal" role="tablist">
+        <button class="cat-tab active" data-category="all">All Everyday Foods (9)</button>
+        <button class="cat-tab" data-category="milk-oil">🥛 Milk &amp; Oils</button>
+        <button class="cat-tab" data-category="sweet">🍯 Honey &amp; Sugar</button>
+        <button class="cat-tab" data-category="spices">🌶️ Salt &amp; Spices</button>
+        <button class="cat-tab" data-category="grains-bev">🌾 Grains &amp; Beverages</button>
+      </div>
+
+      <!-- DART Cards Grid -->
+      <div class="dart-grid">
+
+        <!-- Test 1: Water in Milk -->
+        <div class="dart-card reveal" data-category="milk-oil">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Milk &amp; Dairy</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>1. Water Added to Milk (Slanting Surface Test)</h3>
+            <span class="dart-adulterant-line">Adulterant: Added Water</span>
+            <ul class="dart-steps">
+              <li>Put a single drop of milk on a polished slanting surface (like a clean steel plate).</li>
+              <li>Watch how fast the drop slides down.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure:</strong> Flows slowly, leaving a clear white trail behind.</div>
+            <div class="mini-adult"><strong>❌ Adulterated:</strong> Flows down immediately without leaving a white mark.</div>
+          </div>
+        </div>
+
+        <!-- Test 2: Coconut Oil -->
+        <div class="dart-card reveal" data-category="milk-oil">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Oils &amp; Fats</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>2. Other Cheap Oils Mixed in Coconut Oil</h3>
+            <span class="dart-adulterant-line">Adulterant: Cheap Refined / Mineral Oils</span>
+            <ul class="dart-steps">
+              <li>Pour coconut oil into a transparent glass tumbler.</li>
+              <li>Place it in the refrigerator (not the freezer!) for 30 minutes.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure:</strong> Coconut oil solidifies completely into one uniform white block.</div>
+            <div class="mini-adult"><strong>❌ Adulterated:</strong> Other oils remain liquid as a separate top layer!</div>
+          </div>
+        </div>
+
+        <!-- Test 3: Sugar Solution in Honey -->
+        <div class="dart-card reveal" data-category="sweet">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Sugar &amp; Confectionery</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>3. Sugar Syrup Mixed in Honey</h3>
+            <span class="dart-adulterant-line">Adulterant: Water &amp; Invert Sugar Syrup</span>
+            <ul class="dart-steps">
+              <li>Take a transparent glass of water and add one drop of honey from a spoon.</li>
+              <li>Bonus check: Dip a cotton wick in honey and light it with a match (with adult help).</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure:</strong> Drop settles to the bottom as a thread without dissolving; burns cleanly.</div>
+            <div class="mini-adult"><strong>❌ Adulterated:</strong> Disperses in water right away; crackles or won't burn.</div>
+          </div>
+        </div>
+
+        <!-- Test 4: Aluminium in Silver Leaves (Chandi Vark) -->
+        <div class="dart-card reveal" data-category="sweet">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Sugar &amp; Confectionery</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>4. Aluminium Foil in Silver Leaf (Sweets Vark)</h3>
+            <span class="dart-adulterant-line">Adulterant: Hazardous Aluminium Leaf</span>
+            <ul class="dart-steps">
+              <li>Take a small piece of the silver leaf from a sweet and gently crush it between two fingers.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure Silver:</strong> Crumbles easily into a fine, delicate powder.</div>
+            <div class="mini-adult"><strong>❌ Aluminium:</strong> Tears into tough metallic shreds instead of powdering.</div>
+          </div>
+        </div>
+
+        <!-- Test 5: Artificial Color & Sawdust in Chilli Powder -->
+        <div class="dart-card reveal" data-category="spices">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Salt, Spices &amp; Condiments</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>5. Brick Powder, Sawdust &amp; Dye in Chilli Powder</h3>
+            <span class="dart-adulterant-line">Adulterant: Brick Dust, Sawdust &amp; Synthetic Red Dye</span>
+            <ul class="dart-steps">
+              <li>Sprinkle 1 teaspoon of red chilli powder on the surface of a glass of water.</li>
+              <li>Wait 2 minutes and check the surface, water color, and bottom sediment.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure:</strong> Settles slowly without immediate red color streaks or floating wood.</div>
+            <div class="mini-adult"><strong>❌ Adulterated:</strong> Red dye streaks shoot down; sawdust floats; gritty brick dust settles.</div>
+          </div>
+        </div>
+
+        <!-- Test 6: Iodised Salt vs Common Salt (Potato Test) -->
+        <div class="dart-card reveal" data-category="spices">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Salt, Spices &amp; Condiments</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>6. Checking Iodine in Kitchen Salt (Potato &amp; Lemon)</h3>
+            <span class="dart-adulterant-line">Check: Missing Iodine or Chalk in Salt</span>
+            <ul class="dart-steps">
+              <li>Cut a slice of raw potato, sprinkle salt on the wet surface, and wait 1 minute.</li>
+              <li>Add 2 drops of fresh lemon juice on top.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Iodised Salt:</strong> A clear blue color develops on the potato slice!</div>
+            <div class="mini-adult"><strong>❌ Non-Iodised:</strong> No blue color appears at all.</div>
+          </div>
+        </div>
+
+        <!-- Test 7: Charcoal Dust on Cumin Seeds (Jeera) -->
+        <div class="dart-card reveal" data-category="spices">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Salt, Spices &amp; Condiments</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>7. Grass Seeds Colored with Charcoal in Jeera</h3>
+            <span class="dart-adulterant-line">Adulterant: Wild Grass Seeds &amp; Charcoal Dust</span>
+            <ul class="dart-steps">
+              <li>Take a pinch of cumin seeds (jeera) in your palms and rub them firmly together.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure:</strong> Your palms stay clean and smell naturally aromatic.</div>
+            <div class="mini-adult"><strong>❌ Adulterated:</strong> Your palms turn black/grey from the charcoal coating!</div>
+          </div>
+        </div>
+
+        <!-- Test 8: Chicory & Clay in Coffee Powder -->
+        <div class="dart-card reveal" data-category="grains-bev">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Beverages</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>8. Chicory Powder or Clay in Filter Coffee</h3>
+            <span class="dart-adulterant-line">Adulterant: Chicory Powder &amp; Clay Particles</span>
+            <ul class="dart-steps">
+              <li>Gently sprinkle 1 teaspoon of coffee powder onto the surface of a glass of cold water.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure:</strong> Pure coffee powder floats on the surface of the water for a while.</div>
+            <div class="mini-adult"><strong>❌ Adulterated:</strong> Chicory sinks immediately leaving brown color trails behind.</div>
+          </div>
+        </div>
+
+        <!-- Test 9: Artificial Color on Green Peas -->
+        <div class="dart-card reveal" data-category="grains-bev">
+          <div>
+            <div class="dart-card-top">
+              <span class="dart-category-label">Fruits, Vegetables &amp; Grains</span>
+              <button type="button" class="check-home-btn">⬜ Mark Tested</button>
+            </div>
+            <h3>9. Artificial Green Dye on Green Peas &amp; Coloured Grains</h3>
+            <span class="dart-adulterant-line">Adulterant: Water-Soluble Synthetic Green/Yellow Dye</span>
+            <ul class="dart-steps">
+              <li>Place a handful of green peas or yellow dal in a transparent glass of water.</li>
+              <li>Stir well and let it stand for 15–30 minutes.</li>
+            </ul>
+          </div>
+          <div class="dart-outcomes">
+            <div class="mini-pure"><strong>✅ Pure:</strong> Water stays clear with no artificial dye separation.</div>
+            <div class="mini-adult"><strong>❌ Adulterated:</strong> Water turns bright green or yellow as the dye washes off.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECTION 4: LAB SAFETY RULES
+       ======================================================================== -->
+  <section id="safety-rules">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">🛡️ Important Notes for Young Scientists</span>
+        <h2 class="section-title">Lab Safety Rules</h2>
+        <p class="section-subtitle">
+          Always follow these 4 golden rules before opening any reagent bottle from your Food Adulteration Testing Kit!
+        </p>
+      </div>
+
+      <!-- Kid-Friendly Safety Cards -->
+      <div class="safety-grid reveal">
+        <div class="safety-card">
+          <span class="icon">👩‍🔬</span>
+          <h4>1. Adult Supervision First</h4>
+          <p>Always perform reagent tests with a parent or teacher watching, especially when using Bottle #1 (Iodine) and Bottle #2 (Acid Indicator).</p>
+        </div>
+
+        <div class="safety-card">
+          <span class="icon">🚫</span>
+          <h4>2. Never Taste Tested Food</h4>
+          <p>Once you add any reagent drop to milk, spices, or sugar, that sample is a science experiment—throw it away safely and wash the tube!</p>
+        </div>
+
+        <div class="safety-card">
+          <span class="icon">🧤</span>
+          <h4>3. Keep Droppers Separate</h4>
+          <p>Use the matching cap/dropper for each bottle so the 6 reagents don't mix with each other inside the kit box.</p>
+        </div>
+
+        <div class="safety-card">
+          <span class="icon">🧼</span>
+          <h4>4. Wash Hands After Testing</h4>
+          <p>Rinse test tubes with tap water and wash your hands with soap as soon as you finish your food safety detective work.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <p>
+        <strong>AduKit — Student Food Adulteration Detection Kit &amp; Visual Manual</strong>
+      </p>
+      <p style="margin-top: 6px;">
+        Inspired by <a href="https://eatrightindia.gov.in/dart/" target="_blank" rel="noopener">FSSAI Eat Right India — DART (Detect Adulteration with Rapid Test)</a>. Built for school science education &amp; household food safety awareness.
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

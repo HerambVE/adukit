@@ -1,0 +1,1270 @@
+/* ==========================================================================
+   AduKit - Food Adulteration Testing Kit & Visual Companion Manual
+   Theme Palette:
+   - Coral Red:        #E83D36
+   - Sunny Yellow:     #FFD447
+   - Science Blue:     #318ED0
+   - Leaf Green:       #65B96B
+   - Tangerine Orange: #F28B36
+   - Deep Navy Ink:    #23334D
+   - Warm Cream Paper: #FFF9EF
+   - Pure White:       #FFFFFF
+   - Soft Stone Grey:  #F1F1EC
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap');
+
+:root {
+  --c-red: #E83D36;
+  --c-yellow: #FFD447;
+  --c-blue: #318ED0;
+  --c-green: #65B96B;
+  --c-orange: #F28B36;
+  --c-navy: #23334D;
+  --c-cream: #FFF9EF;
+  --c-white: #FFFFFF;
+  --c-stone: #F1F1EC;
+
+  --c-red-soft: #fdeae9;
+  --c-yellow-soft: #fff8db;
+  --c-blue-soft: #e6f3fb;
+  --c-green-soft: #e9f6ea;
+  --c-orange-soft: #fef0e4;
+
+  --border-ink: 2.5px solid #23334D;
+  --shadow-card: 5px 5px 0px #23334D;
+  --shadow-card-sm: 3px 3px 0px #23334D;
+  --shadow-card-hover: 8px 8px 0px #23334D;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --nav-height: 74px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + 60px);
+}
+
+body {
+  font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--c-cream);
+  background-image: radial-gradient(rgba(35, 51, 77, 0.09) 1.25px, transparent 1.25px);
+  background-size: 24px 24px;
+  color: var(--c-navy);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .brand, .reagent-number, .bottle-num {
+  font-family: 'Fredoka', 'Nunito', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   1. Top Reading Progress Strip & Sticky Navbar (Scrollspy)
+   ========================================================================== */
+.scroll-progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--c-stone);
+  z-index: 1100;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(
+    90deg,
+    var(--c-blue) 0%,
+    var(--c-green) 25%,
+    var(--c-yellow) 50%,
+    var(--c-orange) 75%,
+    var(--c-red) 100%
+  );
+  transition: width 0.1s linear;
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: var(--nav-height);
+  background: var(--c-white);
+  border-bottom: var(--border-ink);
+  display: flex;
+  align-items: center;
+}
+
+.nav-container {
+  max-width: 1220px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--c-navy);
+  font-weight: 700;
+  font-size: 1.35rem;
+  white-space: nowrap;
+}
+
+.brand-icon {
+  background: var(--c-yellow);
+  border: 2px solid var(--c-navy);
+  box-shadow: 2px 2px 0px var(--c-navy);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  transform: rotate(-4deg);
+  transition: transform 0.2s ease;
+}
+
+.brand:hover .brand-icon {
+  transform: rotate(6deg) scale(1.06);
+}
+
+.brand-badge {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.74rem;
+  background: var(--c-orange);
+  color: var(--c-white);
+  border: 1.5px solid var(--c-navy);
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--c-navy);
+  font-weight: 800;
+  font-size: 0.92rem;
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  background: var(--c-stone);
+  border-color: var(--c-navy);
+}
+
+/* Active state controlled by Scrollspy */
+.nav-link.active {
+  background: var(--c-green);
+  color: var(--c-white);
+  border-color: var(--c-navy);
+  box-shadow: var(--shadow-card-sm);
+}
+
+/* ==========================================================================
+   2. Secondary Sticky Sub-Navbar for the 6 Kit Reagents
+   ========================================================================== */
+.reagent-subnav {
+  background: var(--c-stone);
+  border-bottom: var(--border-ink);
+  padding: 10px 20px;
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 990;
+}
+
+.reagent-subnav-inner {
+  max-width: 1220px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.subnav-label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--c-navy);
+  background: var(--c-yellow);
+  border: 1.5px solid var(--c-navy);
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.reagent-pill {
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--c-navy);
+  background: var(--c-white);
+  border: 1.5px solid var(--c-navy);
+  padding: 5px 13px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pill-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid var(--c-navy);
+  display: inline-block;
+}
+
+.reagent-pill:hover {
+  background: var(--c-yellow);
+}
+
+.reagent-pill.active {
+  background: var(--c-navy);
+  color: var(--c-yellow);
+  box-shadow: 2px 2px 0px var(--c-orange);
+}
+
+/* ==========================================================================
+   3. Layout & Workbook Section Headers
+   ========================================================================== */
+.container {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+section {
+  padding: 68px 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 48px;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--c-yellow);
+  color: var(--c-navy);
+  font-weight: 800;
+  font-size: 0.86rem;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  border: 2px solid var(--c-navy);
+  box-shadow: 3px 3px 0px var(--c-navy);
+  transform: rotate(-1deg);
+}
+
+.section-title {
+  font-size: 2.3rem;
+  color: var(--c-navy);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  color: var(--c-navy);
+  opacity: 0.85;
+  font-size: 1.08rem;
+  font-weight: 600;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   4. Hero Section (Kids' Story + Video Player + Kit Map)
+   ========================================================================== */
+.hero-section {
+  background: var(--c-cream);
+  padding: 44px 0 68px;
+  border-bottom: var(--border-ink);
+  position: relative;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.manual-callout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--c-yellow);
+  border: 2px solid var(--c-navy);
+  box-shadow: var(--shadow-card-sm);
+  color: var(--c-navy);
+  padding: 7px 15px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+  transform: rotate(-1deg);
+}
+
+.hero-title {
+  font-size: 2.65rem;
+  line-height: 1.15;
+  color: var(--c-navy);
+  margin-bottom: 18px;
+}
+
+.hero-highlight-green {
+  background: var(--c-green);
+  color: var(--c-white);
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 2px solid var(--c-navy);
+  display: inline-block;
+  transform: rotate(1deg);
+}
+
+.hero-highlight-blue {
+  color: var(--c-blue);
+  text-decoration: underline;
+  text-decoration-color: var(--c-orange);
+  text-decoration-thickness: 4px;
+}
+
+.hero-description {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--c-navy);
+  margin-bottom: 24px;
+}
+
+.story-highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.story-card {
+  background: var(--c-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-card-sm);
+  position: relative;
+}
+
+.story-card.card-why {
+  border-top: 7px solid var(--c-red);
+}
+
+.story-card.card-how {
+  border-top: 7px solid var(--c-blue);
+}
+
+.story-card strong {
+  display: block;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.02rem;
+  color: var(--c-navy);
+  margin-bottom: 5px;
+}
+
+.story-card p {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--c-navy);
+  opacity: 0.88;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.98rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: var(--border-ink);
+  box-shadow: var(--shadow-card-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-card);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--c-navy);
+}
+
+.btn-primary {
+  background: var(--c-green);
+  color: var(--c-white);
+}
+
+.btn-secondary {
+  background: var(--c-yellow);
+  color: var(--c-navy);
+}
+
+/* Hero Video Frame */
+.hero-video-card {
+  background: var(--c-white);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  border: var(--border-ink);
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.video-sticker {
+  position: absolute;
+  top: -14px;
+  right: 22px;
+  background: var(--c-red);
+  color: var(--c-white);
+  border: 2px solid var(--c-navy);
+  box-shadow: 2px 2px 0px var(--c-navy);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  transform: rotate(3deg);
+  z-index: 5;
+}
+
+.video-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 2px 4px;
+}
+
+.video-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.video-dots span {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid var(--c-navy);
+  display: inline-block;
+}
+
+.video-dots span:nth-child(1) { background: var(--c-red); }
+.video-dots span:nth-child(2) { background: var(--c-yellow); }
+.video-dots span:nth-child(3) { background: var(--c-green); }
+
+.video-label {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--c-navy);
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--c-navy);
+  border-radius: 14px;
+  border: 2px solid var(--c-navy);
+  overflow: hidden;
+}
+
+.video-wrapper video,
+.video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  display: block;
+}
+
+/* ==========================================================================
+   5. Kit Overview Strip (6 Illustrated Reagent Bottles Inside Your Box)
+   ========================================================================== */
+.kit-strip {
+  margin-top: 48px;
+  background: var(--c-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-lg);
+  padding: 26px;
+  box-shadow: var(--shadow-card);
+}
+
+.kit-strip-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.manual-match-tag {
+  font-size: 0.82rem;
+  background: var(--c-stone);
+  border: 1.5px solid var(--c-navy);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.kit-bottles-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.bottle-mini-card {
+  text-decoration: none;
+  color: var(--c-navy);
+  background: var(--c-cream);
+  border: 2px solid var(--c-navy);
+  border-radius: 16px;
+  padding: 16px 10px 14px;
+  text-align: center;
+  box-shadow: var(--shadow-card-sm);
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottle-mini-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card);
+  background: var(--c-white);
+}
+
+.css-bottle {
+  width: 44px;
+  height: 58px;
+  position: relative;
+  margin: 6px auto 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.css-bottle-cap {
+  width: 18px;
+  height: 11px;
+  background: var(--c-navy);
+  border-radius: 4px 4px 0 0;
+}
+
+.css-bottle-neck {
+  width: 24px;
+  height: 6px;
+  background: var(--c-stone);
+  border: 2px solid var(--c-navy);
+}
+
+.css-bottle-body {
+  width: 42px;
+  height: 41px;
+  border: 2px solid var(--c-navy);
+  border-radius: 8px 8px 10px 10px;
+  background: var(--c-white);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.css-bottle-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 68%;
+  opacity: 0.88;
+}
+
+.css-bottle-label {
+  position: relative;
+  z-index: 2;
+  background: var(--c-white);
+  border: 1.5px solid var(--c-navy);
+  font-size: 0.7rem;
+  font-weight: 900;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--c-navy);
+}
+
+.bottle-num {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--c-white);
+  background: var(--c-navy);
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin-bottom: 4px;
+}
+
+.bottle-name {
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: block;
+  line-height: 1.2;
+}
+
+.bottle-target {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--c-navy);
+  opacity: 0.78;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ==========================================================================
+   6. The 6 Kit Reagents & Video Demos + Virtual Reaction Lab
+   ========================================================================== */
+.reagents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.reagent-card {
+  background: var(--c-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.reagent-card.in-view {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.reagent-card-header {
+  padding: 18px 28px;
+  border-bottom: var(--border-ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+#reagent-1 .reagent-card-header { background: var(--c-blue); color: var(--c-white); }
+#reagent-2 .reagent-card-header { background: var(--c-red); color: var(--c-white); }
+#reagent-3 .reagent-card-header { background: var(--c-orange); color: var(--c-white); }
+#reagent-4 .reagent-card-header { background: var(--c-yellow); color: var(--c-navy); }
+#reagent-5 .reagent-card-header { background: var(--c-green); color: var(--c-white); }
+#reagent-6 .reagent-card-header { background: var(--c-navy); color: var(--c-white); }
+
+.reagent-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.15rem;
+}
+
+.reagent-number {
+  background: var(--c-white);
+  color: var(--c-navy);
+  border: 2px solid var(--c-navy);
+  box-shadow: 2px 2px 0px var(--c-navy);
+  font-weight: 800;
+  font-size: 0.9rem;
+  padding: 5px 14px;
+  border-radius: 10px;
+}
+
+.manual-page-tag {
+  background: var(--c-cream);
+  border: 2px solid var(--c-navy);
+  color: var(--c-navy);
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 0px rgba(35, 51, 77, 0.35);
+}
+
+.reagent-card-body {
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.reagent-title {
+  font-size: 1.6rem;
+  color: var(--c-navy);
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+
+.reagent-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.meta-pill {
+  font-size: 0.84rem;
+  font-weight: 800;
+  padding: 5px 13px;
+  border-radius: 10px;
+  border: 1.5px solid var(--c-navy);
+}
+
+.meta-food {
+  background: var(--c-blue-soft);
+  color: var(--c-navy);
+}
+
+.meta-adulterant {
+  background: var(--c-red-soft);
+  color: var(--c-navy);
+}
+
+.steps-box {
+  background: var(--c-stone);
+  border: 2px solid var(--c-navy);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+
+.steps-box h4 {
+  font-size: 0.96rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--c-navy);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.steps-list {
+  padding-left: 20px;
+  color: var(--c-navy);
+  font-weight: 600;
+}
+
+.steps-list li {
+  margin-bottom: 8px;
+  font-size: 0.96rem;
+}
+
+.result-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.result-box {
+  padding: 15px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border: 2px solid var(--c-navy);
+  box-shadow: var(--shadow-card-sm);
+}
+
+.result-pure {
+  background: var(--c-green-soft);
+  border-left: 8px solid var(--c-green);
+  color: var(--c-navy);
+}
+
+.result-adulterated {
+  background: var(--c-red-soft);
+  border-left: 8px solid var(--c-red);
+  color: var(--c-navy);
+}
+
+.result-box strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1rem;
+  margin-bottom: 5px;
+}
+
+.reagent-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reagent-video-box {
+  background: var(--c-cream);
+  border: 2px solid var(--c-navy);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  box-shadow: var(--shadow-card-sm);
+}
+
+.reagent-video-caption {
+  margin-top: 10px;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--c-navy);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reaction-sim-box {
+  background: var(--c-stone);
+  border: 2px dashed var(--c-navy);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.sim-visual {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.test-tube {
+  width: 30px;
+  height: 62px;
+  border: 2.5px solid var(--c-navy);
+  border-top: 4px solid var(--c-navy);
+  border-radius: 3px 3px 16px 16px;
+  background: var(--c-white);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.tube-liquid {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 62%;
+  transition: background-color 0.45s ease, height 0.35s ease;
+}
+
+.sim-text strong {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--c-navy);
+}
+
+.sim-text span {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--c-navy);
+  opacity: 0.85;
+}
+
+.sim-toggle-btn {
+  background: var(--c-yellow);
+  color: var(--c-navy);
+  border: 2px solid var(--c-navy);
+  box-shadow: 2px 2px 0px var(--c-navy);
+  padding: 8px 13px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.sim-toggle-btn:hover {
+  background: var(--c-orange);
+  color: var(--c-white);
+}
+
+.sim-toggle-btn.tested {
+  background: var(--c-red);
+  color: var(--c-white);
+}
+
+/* ==========================================================================
+   7. Everyday Adulteration Section (DART No-Reagent Household Tests)
+   ========================================================================== */
+.other-tests-section {
+  background: var(--c-stone);
+  border-top: var(--border-ink);
+  border-bottom: var(--border-ink);
+}
+
+.detective-banner {
+  background: var(--c-white);
+  border: var(--border-ink);
+  box-shadow: var(--shadow-card-sm);
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
+  max-width: 720px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.detective-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.detective-count {
+  background: var(--c-orange);
+  color: var(--c-white);
+  border: 2px solid var(--c-navy);
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.88rem;
+}
+
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 34px;
+}
+
+.cat-tab {
+  background: var(--c-white);
+  border: 2px solid var(--c-navy);
+  color: var(--c-navy);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.92rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0px var(--c-navy);
+  transition: all 0.2s ease;
+}
+
+.cat-tab:hover {
+  background: var(--c-yellow);
+  transform: translateY(-2px);
+}
+
+.cat-tab.active {
+  background: var(--c-blue);
+  color: var(--c-white);
+  box-shadow: 4px 4px 0px var(--c-navy);
+}
+
+.dart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.dart-card {
+  background: var(--c-white);
+  border: var(--border-ink);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.dart-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.dart-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dart-category-label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: var(--c-yellow);
+  color: var(--c-navy);
+  border: 1.5px solid var(--c-navy);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.check-home-btn {
+  background: var(--c-cream);
+  border: 1.5px solid var(--c-navy);
+  color: var(--c-navy);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.check-home-btn.done {
+  background: var(--c-green);
+  color: var(--c-white);
+}
+
+.dart-card h3 {
+  font-size: 1.24rem;
+  margin-bottom: 8px;
+  color: var(--c-navy);
+}
+
+.dart-adulterant-line {
+  display: inline-block;
+  font-size: 0.85rem;
+  background: var(--c-red-soft);
+  color: var(--c-red);
+  border: 1px solid var(--c-red);
+  padding: 2px 10px;
+  border-radius: 6px;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.dart-steps {
+  padding-left: 18px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--c-navy);
+  margin-bottom: 18px;
+}
+
+.dart-steps li {
+  margin-bottom: 6px;
+}
+
+.dart-outcomes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.mini-pure {
+  background: var(--c-green-soft);
+  border: 1.5px solid var(--c-green);
+  color: var(--c-navy);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.mini-adult {
+  background: var(--c-red-soft);
+  border: 1.5px solid var(--c-red);
+  color: var(--c-navy);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* ==========================================================================
+   8. Safety Rules Section
+   ========================================================================== */
+.safety-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.safety-card {
+  background: var(--c-white);
+  border: var(--border-ink);
+  box-shadow: var(--shadow-card-sm);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  position: relative;
+}
+
+.safety-card:nth-child(1) { border-top: 8px solid var(--c-red); }
+.safety-card:nth-child(2) { border-top: 8px solid var(--c-orange); }
+.safety-card:nth-child(3) { border-top: 8px solid var(--c-blue); }
+.safety-card:nth-child(4) { border-top: 8px solid var(--c-green); }
+
+.safety-card .icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  display: inline-block;
+  background: var(--c-cream);
+  border: 1.5px solid var(--c-navy);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  text-align: center;
+  line-height: 44px;
+}
+
+.safety-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  color: var(--c-navy);
+}
+
+.safety-card p {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--c-navy);
+  opacity: 0.88;
+}
+
+/* ==========================================================================
+   9. Footer
+   ========================================================================== */
+.footer {
+  background: var(--c-navy);
+  color: var(--c-cream);
+  padding: 40px 0;
+  text-align: center;
+  font-size: 0.95rem;
+  border-top: 4px solid var(--c-yellow);
+}
+
+.footer strong {
+  color: var(--c-yellow);
+  font-size: 1.1rem;
+}
+
+.footer a {
+  color: var(--c-green);
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   10. Responsive Adjustments & Print View
+   ========================================================================== */
+@media (max-width: 960px) {
+  .hero-grid,
+  .reagent-card-body {
+    grid-template-columns: 1fr;
+  }
+
+  .kit-bottles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 1.95rem;
+  }
+
+  .kit-bottles-grid,
+  .story-highlights,
+  .result-comparison,
+  .dart-outcomes {
+    grid-template-columns: 1fr;
+  }
+
+  .reagent-card-body {
+    padding: 18px;
+  }
+
+  .reaction-sim-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media print {
+  .navbar,
+  .reagent-subnav,
+  .scroll-progress-track,
+  .video-wrapper,
+  .hero-buttons {
+    display: none !important;
+  }
+  .reagent-card-body {
+    grid-template-columns: 1fr;
+  }
+}
