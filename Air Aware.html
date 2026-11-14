@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air Aware</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Atkinson+Hyperlegible:wght@400;700&family=Gochi+Hand&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a young inventor's science notebook. Sky-blue graph paper, sticker cards with ink outlines,
+   handwritten notes in the margins, and a traffic-light buddy who reacts to the air. Single light theme by choice. */
+:root {
+  --paper: #EAF4FB;
+  --grid: #D3E6F3;
+  --surface: #FFFFFF;
+  --ink: #1C2541;
+  --muted: #4E5B78;
+  --pop: #6C4CF5;            /* accent for buttons and links */
+
+  --green: #1E9E57;  --green-soft: #DDF5E7;  --green-glow: #3BE07F;
+  --amber: #B97800;  --amber-soft: #FFF1CC;  --amber-glow: #FFC23A;
+  --red:   #D33A2C;  --red-soft:   #FDE0DC;  --red-glow:   #FF5A47;
+  --housing: #1C2541;
+
+  --font-display: 'Baloo 2', 'Trebuchet MS', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-hand: 'Gochi Hand', 'Comic Sans MS', cursive;
+  --font-lcd: 'VT323', ui-monospace, Menlo, monospace;
+
+  --shadow: 4px 4px 0 var(--ink);
+  --radius: 18px;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: var(--ink); font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+a { color: var(--pop); font-weight: 700; }
+:focus-visible { outline: 3px solid var(--pop); outline-offset: 3px; border-radius: 6px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; text-wrap: balance; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
+.hand { font-family: var(--font-hand); font-weight: 400; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 2px solid var(--ink); flex: none; }
+.dot.g { background: var(--green-glow); } .dot.y { background: var(--amber-glow); } .dot.r { background: var(--red-glow); }
+
+.card { background: var(--surface); border: 2.5px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); }
+.btn { font-family: var(--font-display); font-weight: 800; font-size: 1.05rem; line-height: 1.2; background: var(--surface); color: var(--ink); border: 2.5px solid var(--ink); border-radius: 999px; padding: 9px 18px 7px; box-shadow: 3px 3px 0 var(--ink); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.12s ease, box-shadow 0.12s ease; }
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.btn.primary { background: var(--pop); color: #fff; }
+
+/* ---------- Top bar ---------- */
+.topbar { background: var(--surface); border-bottom: 2.5px solid var(--ink); position: sticky; top: 0; z-index: 20; }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 8px 16px; padding-top: 8px; padding-bottom: 8px; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; color: var(--ink); text-decoration: none; }
+.logo-dots { display: inline-flex; flex-direction: column; gap: 3px; background: var(--housing); padding: 4px 5px; border-radius: 7px; }
+.logo-dots i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+.topnav { display: flex; gap: 2px; flex-wrap: wrap; }
+.topnav a { color: var(--ink); text-decoration: none; font-weight: 700; font-size: 0.92rem; padding: 4px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+.topnav a:hover { background: var(--paper); }
+
+/* ---------- Hero with Air Buddy ---------- */
+.hero .wrap { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(20px, 4vw, 48px); align-items: center; padding-top: clamp(24px, 4vw, 44px); padding-bottom: 18px; }
+.made-by { display: inline-block; font-family: var(--font-hand); font-size: 1.3rem; background: #FFE680; border: 2px dashed var(--ink); padding: 2px 14px; transform: rotate(-2deg); border-radius: 6px; }
+.hero h1 { font-size: clamp(3rem, 8vw, 5.6rem); font-weight: 800; letter-spacing: -0.01em; margin: 10px 0 2px; }
+.hero h1 .a { color: var(--green); } .hero h1 .w { color: var(--red); }
+.tagline { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
+.hero p.lede { max-width: 32em; margin-top: 10px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+.buddy-stage { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; justify-items: start; }
+.buddy { background: var(--housing); border: 3px solid var(--ink); border-radius: 40px; padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: 6px 6px 0 rgba(28,37,65,0.25); position: relative; animation: bob 3.2s ease-in-out infinite; }
+.buddy::after { content: ""; position: absolute; left: 50%; bottom: -40px; width: 20px; height: 40px; transform: translateX(-50%); background: #5A6587; border: 2.5px solid var(--ink); border-top: 0; border-radius: 0 0 6px 6px; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.face-lamp { width: clamp(78px, 10vw, 98px); aspect-ratio: 1; border: 0; background: none; padding: 0; cursor: pointer; border-radius: 50%; transition: transform 0.15s ease, filter 0.3s ease; }
+.face-lamp:hover { transform: scale(1.05); }
+.face-lamp svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.face-lamp .bulb { transition: fill 0.3s ease; }
+.face-lamp[data-light="red"] .bulb { fill: #5A2420; } .face-lamp[data-light="yellow"] .bulb { fill: #5B4718; } .face-lamp[data-light="green"] .bulb { fill: #1B4D31; }
+.face-lamp[data-light="red"].on .bulb { fill: var(--red-glow); } .face-lamp[data-light="yellow"].on .bulb { fill: var(--amber-glow); } .face-lamp[data-light="green"].on .bulb { fill: var(--green-glow); }
+.face-lamp.on[data-light="red"] { filter: drop-shadow(0 0 14px rgba(255,90,71,0.85)); }
+.face-lamp.on[data-light="yellow"] { filter: drop-shadow(0 0 14px rgba(255,194,58,0.85)); }
+.face-lamp.on[data-light="green"] { filter: drop-shadow(0 0 14px rgba(59,224,127,0.85)); }
+.face-lamp .awake { display: none; } .face-lamp.on .awake { display: inline; } .face-lamp.on .sleep { display: none; }
+.bubble { position: relative; padding: 16px 18px; max-width: 290px; font-size: 1rem; }
+.bubble::before { content: ""; position: absolute; left: -14px; top: 40px; border: 12px solid transparent; border-right-color: var(--ink); border-left: 0; }
+.bubble::after { content: ""; position: absolute; left: -9px; top: 42px; border: 10px solid transparent; border-right-color: var(--surface); border-left: 0; }
+.bubble .who { font-family: var(--font-hand); font-size: 1.15rem; color: var(--muted); }
+.bubble strong { font-family: var(--font-display); font-size: 1.15rem; display: block; line-height: 1.2; margin: 2px 0 4px; }
+.tap-hint { font-family: var(--font-hand); font-size: 1.2rem; color: var(--muted); grid-column: 1 / -1; margin-top: 44px; transform: rotate(-1.5deg); }
+
+/* ---------- Quick guide cards ---------- */
+.quick { padding: 10px 0 8px; }
+.quick-title { font-size: clamp(1.7rem, 3.6vw, 2.4rem); font-weight: 800; margin-bottom: 14px; }
+.quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.qcard { padding: 18px 20px 16px; display: flex; flex-direction: column; gap: 10px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.qcard.green { transform: rotate(-0.8deg); } .qcard.yellow { transform: rotate(0.5deg); } .qcard.red { transform: rotate(-0.4deg); }
+.qcard.active { transform: rotate(0) translateY(-4px) scale(1.02); box-shadow: 7px 7px 0 var(--ink); }
+.qcard.green.active { background: var(--green-soft); } .qcard.yellow.active { background: var(--amber-soft); } .qcard.red.active { background: var(--red-soft); }
+.qcard-top { display: flex; align-items: center; gap: 12px; }
+.qlamp { width: 46px; height: 46px; border-radius: 50%; border: 5px solid var(--housing); flex: none; }
+.green .qlamp { background: var(--green-glow); } .yellow .qlamp { background: var(--amber-glow); } .red .qlamp { background: var(--red-glow); }
+.qcard h3 { font-size: 1.7rem; font-weight: 800; text-transform: uppercase; line-height: 1; }
+.green h3 { color: var(--green); } .yellow h3 { color: var(--amber); } .red h3 { color: var(--red); }
+.range { font-family: var(--font-hand); font-size: 1.1rem; color: var(--muted); }
+.verdict { font-weight: 700; font-size: 1.08rem; }
+.qcard ul { list-style: none; display: grid; gap: 6px; }
+.qcard li { display: grid; grid-template-columns: 22px 1fr; gap: 6px; font-size: 0.98rem; }
+.qcard li::before { content: "✓"; font-weight: 800; font-family: var(--font-display); }
+.green li::before { color: var(--green); } .yellow li::before { color: var(--amber); } .red li::before { color: var(--red); }
+.qcard .more { margin-top: auto; padding-top: 4px; color: var(--ink); text-decoration: none; font-family: var(--font-display); font-weight: 800; }
+.qcard .more:hover { text-decoration: underline; }
+.qnote { margin-top: 18px; font-size: 0.95rem; color: var(--muted); }
+
+/* ---------- Section heads ---------- */
+section { scroll-margin-top: 74px; }
+.section-head { padding: clamp(44px, 6vw, 68px) 0 20px; }
+.section-head .kicker { font-family: var(--font-hand); font-size: 1.35rem; color: var(--pop); }
+.section-head h2 { font-size: clamp(2rem, 4.4vw, 3rem); font-weight: 800; }
+.section-head p { max-width: 42em; margin-top: 6px; color: var(--muted); }
+
+/* ---------- Light details (tabs) ---------- */
+.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.tab { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; border: 2.5px solid var(--ink); border-radius: 14px 14px 0 0; padding: 8px 18px 4px; background: var(--surface); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
+.tab[aria-selected="true"].g { background: var(--green-glow); } .tab[aria-selected="true"].y { background: var(--amber-glow); } .tab[aria-selected="true"].r { background: var(--red-glow); color: #fff; }
+.tab[aria-selected="true"] { box-shadow: 3px -3px 0 var(--ink); }
+.panel-wrap { padding: clamp(18px, 3vw, 28px); }
+.panel-wrap.g { border-top: 12px solid var(--green); } .panel-wrap.y { border-top: 12px solid var(--amber); } .panel-wrap.r { border-top: 12px solid var(--red); }
+.light-panel[hidden] { display: none; }
+.lp-head h3 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); font-weight: 800; text-transform: uppercase; }
+.g .lp-head h3 { color: var(--green); } .y .lp-head h3 { color: var(--amber); } .r .lp-head h3 { color: var(--red); }
+.lp-head p { font-size: 1.1rem; }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.chip { font-family: var(--font-display); font-weight: 700; font-size: 0.88rem; padding: 2px 12px; border-radius: 999px; border: 2px solid var(--ink); background: var(--paper); }
+.lp-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; margin-top: 18px; }
+.box { border: 2px dashed var(--ink); border-radius: 14px; padding: 16px 18px; }
+.box h4 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 8px; }
+.box + .box { margin-top: 14px; }
+.box p + p { margin-top: 8px; }
+.box .note { color: var(--muted); font-size: 0.98rem; }
+.todo { list-style: none; display: grid; gap: 9px; }
+.todo li { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; }
+.todo li::before { content: ""; width: 20px; height: 20px; border-radius: 6px; margin-top: 3px; border: 2.5px solid var(--ink); }
+.g .todo li::before { background: var(--green-soft); } .y .todo li::before { background: var(--amber-soft); } .r .todo li::before { background: var(--red-soft); }
+.alert { border: 2.5px solid var(--ink); border-radius: 14px; padding: 12px 16px; background: var(--red-soft); margin-bottom: 14px; font-size: 0.98rem; }
+
+/* ---------- Meet the parts (flip cards) ---------- */
+.parts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.flip { perspective: 1000px; border: 0; background: none; padding: 0; cursor: pointer; text-align: left; font: inherit; color: inherit; min-height: 250px; }
+.flip-inner { position: relative; width: 100%; height: 100%; min-height: 250px; transition: transform 0.6s ease; transform-style: preserve-3d; }
+.flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; }
+.flip-back { transform: rotateY(180deg); background: #FFF6D8; }
+.part-art { height: 74px; display: flex; align-items: center; }
+.part-art svg { height: 74px; width: auto; }
+.flip h3 { font-size: 1.35rem; }
+.flip .says { font-family: var(--font-hand); font-size: 1.25rem; line-height: 1.25; color: var(--ink); }
+.flip .turn { margin-top: auto; font-family: var(--font-display); font-weight: 800; color: var(--pop); font-size: 0.95rem; }
+.flip-back .fact-label { font-family: var(--font-display); font-weight: 800; color: var(--pop); }
+.flip-back p { font-size: 0.98rem; }
+
+.flow { margin-top: 22px; padding: 18px 20px; display: flex; align-items: center; justify-content: center; gap: 10px 14px; flex-wrap: wrap; font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; }
+.flow span.step { background: var(--paper); border: 2px solid var(--ink); border-radius: 12px; padding: 4px 14px 2px; }
+.flow span.arr { font-family: var(--font-hand); font-size: 1.6rem; color: var(--pop); }
+
+.honest { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.honest .card { padding: 18px 20px; background: #FFF6D8; }
+.honest h3 { font-size: 1.25rem; margin-bottom: 6px; }
+.honest p { font-size: 0.98rem; }
+
+.scale { margin-top: 20px; padding: 20px; }
+.scale h3 { font-size: 1.25rem; }
+.scale > p { color: var(--muted); font-size: 0.98rem; margin-bottom: 14px; }
+.scale-bar { display: grid; grid-template-columns: 50fr 50fr 100fr 100fr 100fr 100fr; gap: 4px; }
+.seg { padding: 8px 8px 6px; border-radius: 8px; border: 2px solid var(--ink); min-width: 0; }
+.seg b { display: block; font-family: var(--font-display); font-size: 0.92rem; line-height: 1.15; }
+.seg span { font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.seg.g { background: var(--green-soft); } .seg.y { background: var(--amber-soft); } .seg.r { background: var(--red-soft); }
+.scale-lights { display: grid; grid-template-columns: 100fr 100fr 300fr; gap: 4px; margin-top: 8px; font-family: var(--font-hand); font-size: 1.15rem; }
+.scale-lights div { display: flex; align-items: center; gap: 6px; padding-left: 4px; }
+
+/* ---------- Habits ---------- */
+.habits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.habit { padding: 16px 18px; }
+.habit:nth-child(odd) { transform: rotate(-0.6deg); } .habit:nth-child(even) { transform: rotate(0.6deg); }
+.habit h3 { font-size: 1.2rem; margin-bottom: 4px; }
+.habit p { color: var(--muted); font-size: 0.97rem; }
+
+/* ---------- Learn more ---------- */
+.res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.res-col { padding: 20px; }
+.res-col h3 { font-size: 1.25rem; }
+.res-col > p { color: var(--muted); font-size: 0.95rem; margin-bottom: 12px; }
+.res-list { list-style: none; display: grid; gap: 12px; }
+.res-list .src { display: block; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+.res-list p { font-size: 0.95rem; }
+
+footer { margin-top: clamp(44px, 6vw, 72px); background: var(--surface); border-top: 2.5px solid var(--ink); padding: 26px 0 36px; color: var(--muted); font-size: 0.93rem; }
+footer .wrap { display: grid; gap: 8px; }
+footer .made { font-family: var(--font-hand); font-size: 1.4rem; color: var(--ink); }
+
+
+/* ---------- Model guide ---------- */
+.model-grid { display: grid; grid-template-columns: 1.45fr 0.85fr; gap: 20px; align-items: start; }
+.model-fig { padding: 14px; }
+.fig-wrap { position: relative; }
+.fig-wrap svg { width: 100%; height: auto; display: block; }
+.hot { position: absolute; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; background: var(--pop); color: #fff; border: 2.5px solid var(--ink); font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; cursor: pointer; box-shadow: 2px 2px 0 var(--ink); display: grid; place-items: center; line-height: 1; padding-top: 3px; }
+.hot::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 3px solid var(--pop); opacity: 0; animation: ping 2.4s ease-out infinite; }
+.hot[aria-pressed="true"] { background: #FFE680; color: var(--ink); }
+.hot[aria-pressed="true"]::after { animation: none; }
+@keyframes ping { 0% { transform: scale(0.8); opacity: 0.7; } 100% { transform: scale(1.5); opacity: 0; } }
+.fig-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+.fig-controls .lbl { font-family: var(--font-hand); font-size: 1.2rem; color: var(--muted); margin-right: 4px; }
+.show-btn { font-family: var(--font-display); font-weight: 800; border: 2.5px solid var(--ink); border-radius: 999px; padding: 4px 14px 2px; background: var(--surface); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 2px 2px 0 var(--ink); }
+.show-btn[aria-pressed="true"].g { background: var(--green-glow); } .show-btn[aria-pressed="true"].y { background: var(--amber-glow); } .show-btn[aria-pressed="true"].r { background: var(--red-glow); color: #fff; }
+.fig-note { font-family: var(--font-hand); font-size: 1.1rem; color: var(--muted); margin-top: 6px; }
+.part-info { padding: 20px 22px; position: sticky; top: 84px; }
+.part-info .num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #FFE680; border: 2.5px solid var(--ink); font-family: var(--font-display); font-weight: 800; padding-top: 3px; }
+.part-info h3 { font-size: 1.5rem; margin: 8px 0 6px; }
+.part-info p + p { margin-top: 8px; }
+.part-info .tip { margin-top: 12px; background: var(--paper); border: 2px dashed var(--ink); border-radius: 12px; padding: 10px 12px; font-size: 0.98rem; }
+.part-info .nav-parts { display: flex; gap: 8px; margin-top: 14px; }
+.d-lamp { transition: fill 0.4s ease; }
+
+.read-title { font-size: clamp(1.4rem, 2.8vw, 1.9rem); margin: 28px 0 12px; }
+.read-table { overflow-x: auto; }
+.read-table table { width: 100%; border-collapse: collapse; min-width: 640px; }
+.read-table th, .read-table td { text-align: left; vertical-align: top; padding: 12px 16px; border-bottom: 2px dashed var(--grid); }
+.read-table tr:last-child td { border-bottom: 0; }
+.read-table th { font-family: var(--font-display); font-size: 1.05rem; border-bottom: 2.5px solid var(--ink); }
+.read-table td.lt { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; white-space: nowrap; }
+.read-table td.lt .dot { width: 18px; height: 18px; vertical-align: -2px; margin-right: 6px; }
+.lcd-mini { display: inline-block; background: #2F55C8; color: #E8F0FF; font-family: var(--font-lcd); font-size: 1.2rem; line-height: 1.05; padding: 4px 8px; border-radius: 4px; border: 3px solid #1D3A8A; white-space: pre; }
+
+/* ---------- Help ---------- */
+.tips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.tip-card { padding: 18px 20px; }
+.tip-card .big-num { font-family: var(--font-hand); font-size: 2.2rem; color: var(--pop); line-height: 1; }
+.tip-card h3 { font-size: 1.25rem; margin: 4px 0 6px; }
+.tip-card p { font-size: 0.98rem; color: var(--muted); }
+.faq { margin-top: 22px; display: grid; gap: 12px; }
+.faq details { background: var(--surface); border: 2.5px solid var(--ink); border-radius: 14px; box-shadow: 3px 3px 0 var(--ink); }
+.faq summary { cursor: pointer; padding: 12px 18px; font-family: var(--font-display); font-weight: 800; font-size: 1.12rem; list-style: none; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-size: 1.6rem; line-height: 1; color: var(--pop); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding: 0 18px 14px; }
+@media (max-width: 960px) { .model-grid, .tips { grid-template-columns: 1fr; } .part-info { position: static; } }
+@media (max-width: 640px) { .hot { width: 30px; height: 30px; font-size: 0.95rem; } }
+
+/* ---------- Drawers ---------- */
+.drawers { display: grid; gap: 14px; }
+.drawer { background: var(--surface); border: 2.5px solid var(--ink); border-radius: 16px; box-shadow: 3px 3px 0 var(--ink); }
+.drawer > summary { cursor: pointer; list-style: none; padding: 14px 20px; display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; }
+.drawer > summary::-webkit-details-marker { display: none; }
+.drawer > summary .d-ico { width: 40px; height: 40px; border-radius: 12px; border: 2.5px solid var(--ink); display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; }
+.drawer > summary .d-title { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; line-height: 1.2; }
+.drawer > summary .d-sub { display: block; font-family: var(--font-body); font-weight: 400; font-size: 0.95rem; color: var(--muted); }
+.drawer > summary::after { content: "+"; font-family: var(--font-display); font-size: 1.8rem; line-height: 1; color: var(--pop); }
+.drawer[open] > summary::after { content: "−"; }
+.drawer[open] > summary { border-bottom: 2px dashed var(--grid); }
+.drawer-body { padding: 18px 20px 20px; }
+.drawer-body .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.drawer-body h4 { font-family: var(--font-display); font-size: 1.12rem; margin-bottom: 6px; }
+.drawer-body p + p, .drawer-body p + h4, .drawer-body ul + h4 { margin-top: 10px; }
+.drawer.g .d-ico { background: var(--green-glow); } .drawer.y .d-ico { background: var(--amber-glow); } .drawer.r .d-ico { background: var(--red-glow); }
+.drawer.n .d-ico { background: #FFE680; }
+.drawer .todo li::before { background: var(--paper); }
+.drawer.g .todo li::before { background: var(--green-soft); } .drawer.y .todo li::before { background: var(--amber-soft); } .drawer.r .todo li::before { background: var(--red-soft); }
+.drawer .faq { margin-top: 0; }
+.drawer .faq details { box-shadow: none; border-width: 2px; }
+@media (max-width: 760px) { .drawer-body .two { grid-template-columns: 1fr; } }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .hero .wrap, .lp-grid, .honest, .res-grid { grid-template-columns: 1fr; }
+  .quick-grid, .parts { grid-template-columns: 1fr 1fr; }
+  .habits { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .quick-grid, .parts, .habits { grid-template-columns: 1fr; }
+  .buddy-stage { grid-template-columns: 1fr; justify-items: center; }
+  .bubble::before, .bubble::after { display: none; }
+  .tap-hint { margin-top: 40px; text-align: center; }
+  .scale-bar { grid-template-columns: 1fr 1fr; }
+  .scale-lights { display: none; }
+  .topnav { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="logo-dots" aria-hidden="true"><i style="background:var(--red-glow)"></i><i style="background:var(--amber-glow)"></i><i style="background:var(--green-glow)"></i></span>Air Aware</a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#quick"><span class="dot g"></span><span class="dot y"></span><span class="dot r"></span>&nbsp;The lights</a>
+      <a href="#model">The model</a>
+      <a href="#more">More info</a>
+      <a href="#learn-more">Learn more</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO + AIR BUDDY ================= -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="made-by">Made by young inventors</span>
+        <h1><span class="a">Air</span> <span class="w">Aware</span></h1>
+        <p class="tagline">A traffic light for the air we breathe.</p>
+        <p class="lede">We can't see dirty air, so we built a model that can sense it. Find the colour that's lit right now and read what to do.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#quick">Which light is on? ↓</a>
+          <a class="btn" href="#model">Explore the model</a>
+        </div>
+      </div>
+
+      <div class="buddy-stage">
+        <div class="buddy" role="group" aria-label="Air Buddy traffic light. Tap a light to hear what it means.">
+          <!-- RED lamp: frown + mask -->
+          <button class="face-lamp" data-light="red" type="button" aria-pressed="false">
+            <span class="sr">Red light</span>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="bulb" cx="50" cy="50" r="46" stroke="#0E1426" stroke-width="4"/>
+              <g class="sleep" stroke="#0E1426" stroke-width="4" fill="none" stroke-linecap="round"><path d="M28 44 q7 6 14 0"/><path d="M58 44 q7 6 14 0"/></g>
+              <g class="awake">
+                <circle cx="35" cy="40" r="6" fill="#1C2541"/><circle cx="65" cy="40" r="6" fill="#1C2541"/>
+                <path d="M27 30 l14 5 M73 30 l-14 5" stroke="#1C2541" stroke-width="4" stroke-linecap="round"/>
+                <rect x="24" y="54" width="52" height="24" rx="8" fill="#FFFFFF" stroke="#1C2541" stroke-width="3"/>
+                <path d="M30 62 h40 M30 70 h40" stroke="#B9C3D6" stroke-width="2"/>
+                <path d="M24 60 l-12 -6 M76 60 l12 -6" stroke="#FFFFFF" stroke-width="3"/>
+              </g>
+            </svg>
+          </button>
+          <!-- YELLOW lamp: flat mouth -->
+          <button class="face-lamp" data-light="yellow" type="button" aria-pressed="false">
+            <span class="sr">Yellow light</span>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="bulb" cx="50" cy="50" r="46" stroke="#0E1426" stroke-width="4"/>
+              <g class="sleep" stroke="#0E1426" stroke-width="4" fill="none" stroke-linecap="round"><path d="M28 44 q7 6 14 0"/><path d="M58 44 q7 6 14 0"/></g>
+              <g class="awake">
+                <circle cx="35" cy="42" r="6" fill="#1C2541"/><circle cx="65" cy="42" r="6" fill="#1C2541"/>
+                <path d="M34 68 q16 -6 32 2" stroke="#1C2541" stroke-width="5" fill="none" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </button>
+          <!-- GREEN lamp: big smile -->
+          <button class="face-lamp on" data-light="green" type="button" aria-pressed="true">
+            <span class="sr">Green light</span>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="bulb" cx="50" cy="50" r="46" stroke="#0E1426" stroke-width="4"/>
+              <g class="sleep" stroke="#0E1426" stroke-width="4" fill="none" stroke-linecap="round"><path d="M28 44 q7 6 14 0"/><path d="M58 44 q7 6 14 0"/></g>
+              <g class="awake">
+                <circle cx="35" cy="40" r="6" fill="#1C2541"/><circle cx="65" cy="40" r="6" fill="#1C2541"/>
+                <circle cx="24" cy="56" r="6" fill="#FF8FA3" opacity="0.7"/><circle cx="76" cy="56" r="6" fill="#FF8FA3" opacity="0.7"/>
+                <path d="M30 58 q20 22 40 0" stroke="#1C2541" stroke-width="5" fill="#FFFFFF" stroke-linecap="round"/>
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div class="bubble card" aria-live="polite" id="buddy-bubble">
+          <span class="who">Air Buddy says…</span>
+          <strong>Green means GO!</strong>
+          The air is clean and fresh. Go out and play!
+        </div>
+        <p class="tap-hint">← tap my lights to make me talk!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= QUICK GUIDE (most important) ================= -->
+  <section class="quick" id="quick">
+    <div class="wrap">
+      <h2 class="quick-title">Which light is on? Here's what to do.</h2>
+      <div class="quick-grid">
+        <article class="qcard card green active" data-light="green">
+          <div class="qcard-top"><span class="qlamp" aria-hidden="true"></span><div><h3>Green</h3><span class="range">Good air · AQI 0–100</span></div></div>
+          <p class="verdict">Clean air. Enjoy being outside!</p>
+          <ul>
+            <li><span>Outdoor play, walks and sport are fine.</span></li>
+            <li><span>Open windows to let fresh air in.</span></li>
+            <li><span>Walk or cycle short trips to keep it green.</span></li>
+          </ul>
+          <a class="more" href="#green" data-open="green">All green tips →</a>
+        </article>
+        <article class="qcard card yellow" data-light="yellow">
+          <div class="qcard-top"><span class="qlamp" aria-hidden="true"></span><div><h3>Yellow</h3><span class="range">Fairly good · AQI 101–200</span></div></div>
+          <p class="verdict">Okay for most. Go easy if you're sensitive.</p>
+          <ul>
+            <li><span>Take it easy with long, hard outdoor exercise.</span></li>
+            <li><span>Have asthma? Keep your inhaler with you.</span></li>
+            <li><span>Stay away from busy, smoky roads.</span></li>
+          </ul>
+          <a class="more" href="#yellow" data-open="yellow">All yellow tips →</a>
+        </article>
+        <article class="qcard card red" data-light="red">
+          <div class="qcard-top"><span class="qlamp" aria-hidden="true"></span><div><h3>Red</h3><span class="range">Hazardous · AQI 201–500</span></div></div>
+          <p class="verdict">Unhealthy air. Protect yourself!</p>
+          <ul>
+            <li><span>Play indoors and keep windows closed.</span></li>
+            <li><span>Going out? Wear an N95 mask.</span></li>
+            <li><span>Breathless or chest pain? Tell an adult and see a doctor.</span></li>
+          </ul>
+          <a class="more" href="#red" data-open="red">All red tips →</a>
+        </article>
+      </div>
+      <p class="qnote"><strong>Good to know:</strong> Air Aware is a student project. It measures the air right next to it, and its number is an estimate. For your city's official air quality, see <a href="#learn-more">Learn more</a>.</p>
+    </div>
+  </section>
+
+  <!-- ================= MODEL GUIDE ================= -->
+  <section id="model">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">your guide to the model</span>
+        <h2>Meet the Air Aware model</h2>
+        <p>Tap a number to learn about each part. Use the buttons to see how the model changes.</p>
+      </div>
+      <div class="model-grid">
+        <div class="card model-fig">
+          <div class="fig-wrap">
+            <svg id="model-svg" viewBox="0 0 580 380" role="img" aria-labelledby="model-title">
+              <title id="model-title">Drawing of the Air Aware model: a traffic-light pole, an LCD screen and an air sensor on a base board</title>
+              <rect x="20" y="300" width="510" height="40" rx="6" fill="#E8C99B" stroke="#1C2541" stroke-width="3"/>
+              <rect x="150" y="235" width="14" height="66" fill="#8A96B0" stroke="#1C2541" stroke-width="2.5"/>
+              <rect x="117" y="28" width="80" height="212" rx="20" fill="#1C2541"/>
+              <path d="M110 58 h94 M110 121 h94 M110 184 h94" stroke="#1C2541" stroke-width="6" stroke-linecap="round"/>
+              <circle class="d-lamp" id="d-red" cx="157" cy="72" r="24" fill="#5A2420" stroke="#0E1426" stroke-width="3"/>
+              <circle class="d-lamp" id="d-yellow" cx="157" cy="135" r="24" fill="#5B4718" stroke="#0E1426" stroke-width="3"/>
+              <circle class="d-lamp" id="d-green" cx="157" cy="198" r="24" fill="#3BE07F" stroke="#0E1426" stroke-width="3"/>
+              <rect x="225" y="236" width="160" height="58" rx="6" fill="#1D3A8A" stroke="#1C2541" stroke-width="3"/>
+              <rect x="234" y="244" width="142" height="42" fill="#2F55C8"/>
+              <text id="d-lcd1" x="240" y="262" fill="#E8F0FF" font-family="VT323, monospace" font-size="19">AQI: 60</text>
+              <text id="d-lcd2" x="240" y="281" fill="#E8F0FF" font-family="VT323, monospace" font-size="19">GOOD AIR</text>
+              <rect x="400" y="276" width="56" height="24" rx="3" fill="#2E7DD1" stroke="#1C2541" stroke-width="2.5"/>
+              <circle cx="428" cy="266" r="15" fill="#C9CED6" stroke="#1C2541" stroke-width="2.5"/>
+              <path d="M418 261 h20 M416 267 h24 M418 273 h20" stroke="#1C2541" stroke-width="1.5"/>
+              <path d="M530 320 C 550 320, 546 352, 558 354" stroke="#1C2541" stroke-width="4" fill="none"/>
+              <rect x="546" y="350" width="24" height="22" rx="4" fill="#3C4A6B" stroke="#1C2541" stroke-width="2.5"/>
+              <text x="72" y="326" fill="#1C2541" font-family="Gochi Hand, cursive" font-size="17">brain hidden inside the base</text>
+            </svg>
+            <button class="hot" type="button" data-part="lights" style="left:36%;top:12%" aria-pressed="true">1<span class="sr"> Traffic lights</span></button>
+            <button class="hot" type="button" data-part="lcd" style="left:55%;top:55%" aria-pressed="false">2<span class="sr"> LCD screen</span></button>
+            <button class="hot" type="button" data-part="sensor" style="left:74%;top:56%" aria-pressed="false">3<span class="sr"> Air sensor</span></button>
+            <button class="hot" type="button" data-part="brain" style="left:7%;top:84%" aria-pressed="false">4<span class="sr"> Arduino brain</span></button>
+            <button class="hot" type="button" data-part="power" style="left:93%;top:78%" aria-pressed="false">5<span class="sr"> Power</span></button>
+          </div>
+          <div class="fig-controls" role="group" aria-label="Show the model with">
+            <span class="lbl">Show me:</span>
+            <button class="show-btn g" type="button" data-show="green" aria-pressed="true"><span class="dot g"></span>Clean air</button>
+            <button class="show-btn y" type="button" data-show="yellow" aria-pressed="false"><span class="dot y"></span>So-so air</button>
+            <button class="show-btn r" type="button" data-show="red" aria-pressed="false"><span class="dot r"></span>Bad air</button>
+          </div>
+          <p class="fig-note">This is a drawing. The real model may look a little different.</p>
+        </div>
+        <div class="card part-info" id="part-info" aria-live="polite"></div>
+      </div>
+
+      <h3 class="read-title">How to read the model</h3>
+      <div class="card read-table">
+        <table>
+          <thead><tr><th scope="col">Light</th><th scope="col">The screen says</th><th scope="col">What you should do</th></tr></thead>
+          <tbody>
+            <tr><td class="lt"><span class="dot g"></span>Green</td><td><span class="lcd-mini">AQI: 0–100&#10;GOOD AIR</span></td><td>Go out and play. Open your windows too.</td></tr>
+            <tr><td class="lt"><span class="dot y"></span>Yellow</td><td><span class="lcd-mini">AQI: 101–200&#10;FAIRLY GOOD</span></td><td>Take it easy outdoors, especially if you have asthma.</td></tr>
+            <tr><td class="lt"><span class="dot r"></span>Red</td><td><span class="lcd-mini">AQI: 201+&#10;HAZARDOUS!</span></td><td>Stay indoors, keep windows closed, wear an N95 mask outside.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MORE INFO (drawers) ================= -->
+  <section id="more">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">want to know more?</span>
+        <h2>Open a drawer</h2>
+        <p>Tap any topic to open it.</p>
+      </div>
+      <div class="drawers">
+
+        <details class="drawer g" id="green">
+          <summary><span class="d-ico" aria-hidden="true">G</span><span class="d-title">Green light: full tips<span class="d-sub">Good air · AQI 0–100</span></span></summary>
+          <div class="drawer-body"><div class="two">
+            <div><h4>What it means</h4><p>Pollution is low and the air is safe for everyone. Very sensitive people, such as those with asthma, may notice a little discomfort near the top of this range.</p></div>
+            <div><h4>What you can do</h4><ul class="todo">
+              <li><span>Play, walk, cycle or have class outdoors.</span></li>
+              <li><span>Open windows to let fresh air in.</span></li>
+              <li><span>Walk or cycle short trips, and never burn leaves or garbage, to keep the air green.</span></li>
+            </ul></div>
+          </div></div>
+        </details>
+
+        <details class="drawer y" id="yellow">
+          <summary><span class="d-ico" aria-hidden="true">Y</span><span class="d-title">Yellow light: full tips<span class="d-sub">Fairly good · AQI 101–200</span></span></summary>
+          <div class="drawer-body"><div class="two">
+            <div><h4>What it means</h4><p>Okay for most healthy people, but pollution is building up. People with asthma, lung or heart problems, young children and older adults may feel it.</p></div>
+            <div><h4>What you can do</h4><ul class="todo">
+              <li><span>Take it easy with long or hard outdoor exercise.</span></li>
+              <li><span>Stay away from busy roads and rush hour.</span></li>
+              <li><span>If you have asthma, keep your inhaler with you.</span></li>
+              <li><span>Don't add to it: share rides, skip firecrackers, use less incense indoors.</span></li>
+            </ul></div>
+          </div></div>
+        </details>
+
+        <details class="drawer r" id="red">
+          <summary><span class="d-ico" aria-hidden="true">R</span><span class="d-title">Red light: full tips<span class="d-sub">Hazardous · AQI 201–500</span></span></summary>
+          <div class="drawer-body">
+            <div class="alert"><strong>Get medical help</strong> for breathlessness, chest pain, dizziness, or a cough that won't stop.</div>
+            <div class="two">
+              <div><h4>What it means</h4><p>Most people may feel breathing discomfort if they stay out long. At the highest levels even healthy people are affected, and it's serious for children, older adults, pregnant women and anyone with asthma, lung or heart disease.</p></div>
+              <div><h4>What you can do</h4><ul class="todo">
+                <li><span>Stay indoors and play indoor games.</span></li>
+                <li><span>Keep doors and windows closed.</span></li>
+                <li><span>If you must go out, wear a well-fitted N95 or N99 mask. Cloth masks don't filter tiny particles well.</span></li>
+                <li><span>Use an air purifier if you have one, and don't burn anything indoors or out.</span></li>
+              </ul></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="drawer n" id="parts">
+          <summary><span class="d-ico" aria-hidden="true">5</span><span class="d-title">Meet the parts<span class="d-sub">The five parts inside the model, with fun facts</span></span></summary>
+          <div class="drawer-body">
+            <div class="parts">
+<button class="flip" type="button" aria-pressed="false">
+          <div class="flip-inner">
+            <div class="flip-face card">
+              <div class="part-art"><svg viewBox="0 0 80 80" aria-hidden="true"><rect x="8" y="30" width="64" height="44" rx="4" fill="#2E7DD1" stroke="#1C2541" stroke-width="3"/><circle cx="40" cy="30" r="20" fill="#C9CED6" stroke="#1C2541" stroke-width="3"/><path d="M28 22 h24 M26 30 h28 M28 38 h24" stroke="#1C2541" stroke-width="2"/><path d="M20 74 v4 M32 74 v4 M48 74 v4 M60 74 v4" stroke="#1C2541" stroke-width="3"/></svg></div>
+              <h3>MQ135 sensor</h3>
+              <p class="says">"I'm the nose! I sniff the air for gases and smoke."</p>
+              <span class="turn">Tap to flip ↻</span>
+            </div>
+            <div class="flip-face flip-back card">
+              <span class="fact-label">Fun fact</span>
+              <p>The MQ135 has a tiny heater inside! It reacts to gases such as ammonia, nitrogen oxides, alcohol, benzene, smoke and carbon dioxide. A brand-new one should warm up for a whole day before its readings settle.</p>
+              <span class="turn">Tap to flip back ↻</span>
+            </div>
+          </div>
+        </button>
+<button class="flip" type="button" aria-pressed="false">
+          <div class="flip-inner">
+            <div class="flip-face card">
+              <div class="part-art"><svg viewBox="0 0 100 70" aria-hidden="true"><rect x="4" y="6" width="92" height="58" rx="6" fill="#1D8FA6" stroke="#1C2541" stroke-width="3"/><rect x="40" y="22" width="26" height="20" fill="#1C2541"/><rect x="8" y="10" width="14" height="12" fill="#C9CED6" stroke="#1C2541" stroke-width="2"/><path d="M30 10 h60 M30 60 h60" stroke="#1C2541" stroke-width="4" stroke-dasharray="3 3"/></svg></div>
+              <h3>Arduino Uno</h3>
+              <p class="says">"I'm the brain! I read the nose and tell everyone what to show."</p>
+              <span class="turn">Tap to flip ↻</span>
+            </div>
+            <div class="flip-face flip-back card">
+              <span class="fact-label">Fun fact</span>
+              <p>An Arduino runs its program in a loop, over and over, many times a second. That's how Air Aware keeps checking the air without ever getting bored.</p>
+              <span class="turn">Tap to flip back ↻</span>
+            </div>
+          </div>
+        </button>
+<button class="flip" type="button" aria-pressed="false">
+          <div class="flip-inner">
+            <div class="flip-face card">
+              <div class="part-art"><svg viewBox="0 0 44 80" aria-hidden="true"><rect x="4" y="2" width="36" height="76" rx="14" fill="#1C2541"/><circle cx="22" cy="18" r="10" fill="#FF5A47"/><circle cx="22" cy="40" r="10" fill="#FFC23A"/><circle cx="22" cy="62" r="10" fill="#3BE07F"/></svg></div>
+              <h3>Red, yellow &amp; green LEDs</h3>
+              <p class="says">"We're the traffic light! Only one of us shines at a time."</p>
+              <span class="turn">Tap to flip ↻</span>
+            </div>
+            <div class="flip-face flip-back card">
+              <span class="fact-label">Fun fact</span>
+              <p>LED stands for Light Emitting Diode. LEDs use very little power and can glow for years, which makes them perfect for a gadget that's on all day.</p>
+              <span class="turn">Tap to flip back ↻</span>
+            </div>
+          </div>
+        </button>
+<button class="flip" type="button" aria-pressed="false">
+          <div class="flip-inner">
+            <div class="flip-face card">
+              <div class="part-art"><svg viewBox="0 0 110 54" aria-hidden="true"><rect x="3" y="3" width="104" height="48" rx="5" fill="#1D3A8A" stroke="#1C2541" stroke-width="3"/><rect x="11" y="11" width="88" height="32" fill="#2F55C8"/><text x="16" y="25" fill="#E8F0FF" font-family="VT323, monospace" font-size="13">AQI: 60</text><text x="16" y="38" fill="#E8F0FF" font-family="VT323, monospace" font-size="13">GOOD AIR</text></svg></div>
+              <h3>16×2 LCD screen</h3>
+              <p class="says">"I'm the talker! I show the number and a short message."</p>
+              <span class="turn">Tap to flip ↻</span>
+            </div>
+            <div class="flip-face flip-back card">
+              <span class="fact-label">Fun fact</span>
+              <p>"16×2" means 2 lines with 16 letters each, so the whole screen fits just 32 characters. We had to keep our messages short!</p>
+              <span class="turn">Tap to flip back ↻</span>
+            </div>
+          </div>
+        </button>
+<button class="flip" type="button" aria-pressed="false">
+          <div class="flip-inner">
+            <div class="flip-face card">
+              <div class="part-art"><svg viewBox="0 0 90 70" aria-hidden="true"><rect x="8" y="14" width="40" height="42" rx="6" fill="#3C4A6B" stroke="#1C2541" stroke-width="3"/><path d="M18 14 v-10 M38 14 v-10" stroke="#1C2541" stroke-width="5"/><path d="M48 36 C 66 36, 64 60, 86 58" stroke="#1C2541" stroke-width="4" fill="none"/><path d="M24 30 l6 -8 v8 h6 l-6 10 v-8 z" fill="#FFC23A"/></svg></div>
+              <h3>Power adapter</h3>
+              <p class="says">"I'm the lunchbox! I give everyone energy from the wall socket."</p>
+              <span class="turn">Tap to flip ↻</span>
+            </div>
+            <div class="flip-face flip-back card">
+              <span class="fact-label">Fun fact</span>
+              <p>The sensor's heater needs steady power to give good readings, so Air Aware plugs into the wall instead of running on small batteries.</p>
+              <span class="turn">Tap to flip back ↻</span>
+            </div>
+          </div>
+        </button>
+</div>
+            <div class="card flow" aria-label="How the parts work together" style="box-shadow:none">
+              <span class="step">Nose sniffs the air</span><span class="arr">→</span>
+              <span class="step">Brain works out the AQI</span><span class="arr">→</span>
+              <span class="step">Lights &amp; screen show it</span>
+            </div>
+          </div>
+        </details>
+
+        <details class="drawer n" id="science">
+          <summary><span class="d-ico" aria-hidden="true">i</span><span class="d-title">What can the model measure?<span class="d-sub">The sensor, its limits, and India's AQI scale</span></span></summary>
+          <div class="drawer-body">
+            <p>Our sensor smells gases and smoke, such as ammonia, alcohol, benzene and carbon dioxide. India's official AQI is worked out from eight pollutants, including tiny dust particles (PM2.5 and PM10), using lab-grade machines. So our number is a <strong>clue</strong> about the air nearby, great for learning, but not a replacement for official readings.</p>
+            <h4 style="margin-top:16px">The scale behind our lights</h4>
+            <div class="scale-bar">
+              <div class="seg g"><b>Good</b><span>0–50</span></div>
+              <div class="seg g"><b>Satisfactory</b><span>51–100</span></div>
+              <div class="seg y"><b>Moderately polluted</b><span>101–200</span></div>
+              <div class="seg r"><b>Poor</b><span>201–300</span></div>
+              <div class="seg r"><b>Very poor</b><span>301–400</span></div>
+              <div class="seg r"><b>Severe</b><span>401–500</span></div>
+            </div>
+            <div class="scale-lights" aria-hidden="true">
+              <div><span class="dot g"></span>green</div>
+              <div><span class="dot y"></span>yellow</div>
+              <div><span class="dot r"></span>red</div>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LEARN MORE ================= -->
+  <section id="learn-more">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">for grown-ups and curious kids</span>
+        <h2>Learn more from official guides</h2>
+        <p>For city-wide readings and trusted health advice.</p>
+      </div>
+      <div class="res-grid">
+        <div class="res-col card">
+          <h3>Check today's air</h3>
+          <ul class="res-list">
+            <li><a href="https://app.cpcbccr.com/AQI_India/" target="_blank" rel="noopener">National AQI dashboard</a><span class="src">CPCB · Govt. of India</span></li>
+            <li><a href="https://play.google.com/store/search?q=Sameer%20CPCB&amp;c=apps" target="_blank" rel="noopener">SAMEER app</a><span class="src">CPCB · mobile app</span></li>
+            <li><a href="https://safar.tropmet.res.in/" target="_blank" rel="noopener">SAFAR air quality forecast</a><span class="src">IITM Pune · Ministry of Earth Sciences</span></li>
+          </ul>
+        </div>
+        <div class="res-col card">
+          <h3>Protect your health</h3>
+          <ul class="res-list">
+            <li><a href="https://ncdc.mohfw.gov.in/centre-for-environmental-occupational-health-climate-change-health" target="_blank" rel="noopener">Health advisories on air pollution</a><span class="src">NCDC · Ministry of Health</span></li>
+            <li><a href="https://www.who.int/news-room/fact-sheets/detail/ambient-(outdoor)-air-quality-and-health" target="_blank" rel="noopener">Air quality and health fact sheet</a><span class="src">World Health Organization</span></li>
+            <li><a href="https://www.who.int/news-room/q-a-detail/who-global-air-quality-guidelines" target="_blank" rel="noopener">WHO Global Air Quality Guidelines</a><span class="src">World Health Organization · 2021</span></li>
+          </ul>
+        </div>
+        <div class="res-col card">
+          <h3>See what's being done</h3>
+          <ul class="res-list">
+            <li><a href="https://prana.cpcb.gov.in/" target="_blank" rel="noopener">PRANA portal</a><span class="src">CPCB · National Clean Air Programme</span></li>
+            <li><a href="https://cpcb.nic.in/" target="_blank" rel="noopener">Central Pollution Control Board</a><span class="src">Govt. of India</span></li>
+            <li><a href="https://www.mpcb.gov.in/" target="_blank" rel="noopener">Maharashtra Pollution Control Board</a><span class="src">MPCB · Govt. of Maharashtra</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="made">Designed and built by young inventors who want everyone to breathe easy.</p>
+    <p>The Air Aware model uses an MQ135 gas sensor, an Arduino Uno, a 16×2 LCD screen and traffic-light LEDs. This website is a guide and isn't connected to the model. The lights follow the bands of India's National Air Quality Index (CPCB). Device readings are an estimate. Advice on this page is general guidance based on public health advisories, not medical advice. If you have a health condition, follow your doctor's advice.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Shared: light thresholds (match your Arduino code) ---------- */
+  const LIGHTS = [
+    { id: 'green',  max: 100, label: 'Green · Good',         lcd: 'GOOD AIR',    cls: 'g' },
+    { id: 'yellow', max: 200, label: 'Yellow · Fairly good', lcd: 'FAIRLY GOOD', cls: 'y' },
+    { id: 'red',    max: 500, label: 'Red · Hazardous',      lcd: 'HAZARDOUS!',  cls: 'r' },
+  ];
+  const lightFor = (aqi) => LIGHTS.find((l) => aqi <= l.max) || LIGHTS[2];
+
+  /* ---------- 1. Air Buddy ---------- */
+  const SAYS = {
+    green:  ['Green means GO!', 'The air is clean and fresh. Go out and play!'],
+    yellow: ['Yellow means SLOW.', "The air is okay, but take it easy, especially if you have asthma."],
+    red:    ['Red means STOP!', 'The air is unhealthy. Play indoors today, and wear a mask if you go out.'],
+  };
+  const faceLamps = document.querySelectorAll('.face-lamp');
+  const bubble = document.getElementById('buddy-bubble');
+  const qcards = document.querySelectorAll('.qcard');
+  function setBuddy(id) {
+    faceLamps.forEach((l) => {
+      const on = l.dataset.light === id;
+      l.classList.toggle('on', on);
+      l.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    bubble.innerHTML = '<span class="who">Air Buddy says…</span><strong>' + SAYS[id][0] + '</strong>' + SAYS[id][1];
+    qcards.forEach((c) => c.classList.toggle('active', c.dataset.light === id));
+  }
+  faceLamps.forEach((l) => l.addEventListener('click', () => setBuddy(l.dataset.light)));
+
+
+  /* ---------- Model guide: hotspots + show buttons ---------- */
+  const PARTS = {
+    lights: { n: 1, t: 'The traffic lights', p: ['The big signal on the pole. Only one lamp is lit at a time: green for good air, yellow for fairly good air, red for hazardous air.', "It's the quickest way to read the model, even from across the room."], tip: 'Find the colour that’s lit and check the guide at the top of this page.' },
+    lcd: { n: 2, t: 'The LCD screen', p: ['A small screen with 2 lines of 16 letters. The top line shows the Air Quality Index (AQI) number. The bottom line shows a status word.', 'Watch the number go up and down as the air changes. Bigger number = dirtier air.'], tip: 'Try reading it now. Is the number under 100, between 101 and 200, or over 200?' },
+    sensor: { n: 3, t: 'The air sensor (MQ135)', p: ["The model's nose. This small metal cylinder sniffs the air for gases and smoke, such as ammonia, alcohol, benzene and carbon dioxide.", 'It has a tiny heater inside, so it needs a few minutes to warm up after the model is switched on.'], tip: 'Please don’t blow on it or spray sanitizer or perfume near it. It will think the air is very dirty!' },
+    brain: { n: 4, t: 'The brain (Arduino Uno)', p: ['Hidden inside the base is an Arduino Uno, a tiny computer. It reads the sensor again and again, works out the AQI, and tells the lights and screen what to do.'], tip: 'You can’t see it, but it’s working all the time the model is on.' },
+    power: { n: 5, t: 'Power', p: ['The model plugs into the wall through a power adapter, so it can run all day. The sensor’s heater needs steady power to give good readings.'], tip: 'If nothing is lit, ask a staff member to check the plug.' },
+  };
+  const ORDER = Object.keys(PARTS);
+  const info = document.getElementById('part-info');
+  const hots = document.querySelectorAll('.hot');
+  function showPart(key) {
+    const d = PARTS[key];
+    const i = ORDER.indexOf(key);
+    hots.forEach((h) => h.setAttribute('aria-pressed', h.dataset.part === key ? 'true' : 'false'));
+    info.innerHTML = '<span class="num">' + d.n + '</span><h3>' + d.t + '</h3>' + d.p.map((x) => '<p>' + x + '</p>').join('') +
+      '<p class="tip"><strong>Tip:</strong> ' + d.tip + '</p>' +
+      '<div class="nav-parts"><button class="btn" type="button" data-go="' + ORDER[(i + ORDER.length - 1) % ORDER.length] + '">← Back</button>' +
+      '<button class="btn primary" type="button" data-go="' + ORDER[(i + 1) % ORDER.length] + '">Next part →</button></div>';
+    info.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => showPart(b.dataset.go)));
+  }
+  hots.forEach((h) => h.addEventListener('click', () => showPart(h.dataset.part)));
+  showPart('lights');
+
+  const LAMP_ON = { red: '#FF5A47', yellow: '#FFC23A', green: '#3BE07F' };
+  const LAMP_OFF = { red: '#5A2420', yellow: '#5B4718', green: '#1B4D31' };
+  const SAMPLE = { green: 60, yellow: 150, red: 320 };
+  const showBtns = document.querySelectorAll('.show-btn');
+  function setModel(id) {
+    ['red', 'yellow', 'green'].forEach((c) => document.getElementById('d-' + c).setAttribute('fill', c === id ? LAMP_ON[c] : LAMP_OFF[c]));
+    const light = LIGHTS.find((l) => l.id === id);
+    document.getElementById('d-lcd1').textContent = 'AQI: ' + SAMPLE[id];
+    document.getElementById('d-lcd2').textContent = light.lcd;
+    showBtns.forEach((b) => b.setAttribute('aria-pressed', b.dataset.show === id ? 'true' : 'false'));
+  }
+  showBtns.forEach((b) => b.addEventListener('click', () => setModel(b.dataset.show)));
+  setModel('green');
+
+  /* ---------- 2. Quick-card links open the matching drawer ---------- */
+  document.querySelectorAll('[data-open]').forEach((a) => a.addEventListener('click', () => {
+    const d = document.getElementById(a.dataset.open);
+    if (d) d.open = true;
+  }));
+
+  /* ---------- 4. Flip cards ---------- */
+  document.querySelectorAll('.flip').forEach((f) => f.addEventListener('click', () => {
+    const on = f.classList.toggle('flipped');
+    f.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }));
+
+})();
+</script>
+</body>
+</html>
